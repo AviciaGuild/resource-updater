@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col text-center">
+        <h1>Resource Simulation</h1>
+      </div>
+    </div>
+
+    <div class="row terrs"></div>
+
+    <br><br>
+
+    <div class="row">
+      <div class="col totalProduction"></div>
+    </div>
+
+    <br><br>
+
+    <div class="row">
+      <div class="col text-center">
+        <h1>Terrs to Modify (separate by comma)</h1>
+        <textarea id="terrsToModify">Ahmsord,Ahmsord Outskirts,Jofash Docks,Kandon Farm</textarea>
+
+        <div class="row upgrades">
+          <div class="col">
+            <button class="modifyUpgrade btn btn-warning" id="efficientResourcesDown">-</button>
+            <div class="arrowText" id="efficientResources">Efficient Resources: 0% (0)</div>
+            <button class="modifyUpgrade btn btn-warning" id="efficientResourcesUp">+</button>
+          </div>
+          <div class="col">
+            <button class="modifyUpgrade btn btn-warning" id="resourceRateDown">-</button>
+            <div class="arrowText" id="resourceRate">Resource Rate: 4s (0)</div>
+            <button class="modifyUpgrade btn btn-warning" id="resourceRateUp">+</button>
+          </div>
+          <div class="col">
+            <button class="modifyUpgrade btn btn-warning" id="efficientEmeraldsDown">-</button>
+            <div class="arrowText" id="efficientEmeralds">Efficient Emeralds: 0% (0)</div>
+            <button class="modifyUpgrade btn btn-warning" id="efficientEmeraldsUp">+</button>
+          </div>
+          <div class="col">
+            <button class="modifyUpgrade btn btn-warning" id="emeraldRateDown">-</button>
+            <div class="arrowText" id="emeraldRate">Emerald Rate: 4s (0)</div>
+            <button class="modifyUpgrade btn btn-warning" id="emeraldRateUp">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <script src="index.js"></script>
+</body>
+
+</html>

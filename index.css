@@ -1,0 +1,26 @@
+.terr {
+  background-color: #6db1ff;
+  border-radius: 2rem;
+  padding: 10px;
+  margin: 10px;
+}
+
+.totalProduction {
+  background-color: #6db1ff;
+  border-radius: 2rem;
+  padding: 10px;
+  margin: 10px;
+}
+
+#terrsToModify {
+  resize: none;
+  width: 80%;
+  height: 100px;
+}
+
+.arrowText {
+  border: 1px solid gray;
+  padding: 5px !important;
+  display: inline !important;
+  font-size: 13px;
+}

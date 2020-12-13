@@ -158,7 +158,7 @@ const currentTerrs = {
       "emeraldRate": 0
     }
   },
-  "Dragonling Nest": {
+  "Dragonling Nests": {
     "type": "wood",
     "baseResources": 3600,
     "selected": "unselected",
@@ -508,7 +508,7 @@ const currentTerrs = {
       "emeraldRate": 0
     }
   },
-  "Sky falls": {
+  "Sky Falls": {
     "type": "ore",
     "baseResources": 3600,
     "selected": "unselected",
@@ -749,6 +749,103 @@ const emeraldsTimesCosts = [0, 2000, 8000, 32000];
 updateJSON(Object.keys(currentTerrs), currentUpgrades);
 updateCards();
 
+updateMap();
+
+function updateMap() {
+  const map = L.map("map", {
+    crs: L.CRS.Simple,
+    minZoom: 6,
+    maxZoom: 10,
+    zoomControl: false,
+    zoom: 8
+  });
+
+  L.imageOverlay("map.png", [[0, 0], [7, 7]]).addTo(map);
+  map.fitBounds([[0, 0], [7, 7]]);
+
+  let minX = 550;
+  let maxX = 1620;
+  let xRange = Math.abs(maxX - minX);
+  let minY = -5120;
+  let maxY = -3560;
+  let yRange = Math.abs(maxY - minY);
+
+  $.get("https://api.wynncraft.com/public_api.php?action=territoryList", function (terrData) {
+
+    Object.keys(currentTerrs).forEach(terr => {
+      let bounds = [[terrData.territories[terr].location.startY, terrData.territories[terr].location.startX], [terrData.territories[terr].location.endY, terrData.territories[terr].location.endX]];
+
+      bounds[0][0] = 7 - ((bounds[0][0] - minY) * 7 / yRange);
+      bounds[0][1] = (bounds[0][1] - minX) * 7 / xRange;
+      bounds[1][0] = 7 - ((bounds[1][0] - minY) * 7 / yRange);
+      bounds[1][1] = (bounds[1][1] - minX) * 7 / xRange;
+
+      let rectangle = L.rectangle(bounds, { color: "#0058ff", weight: 2 })
+
+      rectangle.bindPopup(terr).openPopup();
+      currentTerrs[terr].popup = rectangle;
+
+      rectangle.addTo(map);
+    });
+  });
+}
+
+setTimeout(function () {
+  updateRectangles();
+}, 2000);
+
+function updateRectangles() {
+  Object.entries(currentTerrs).forEach(([terrName, terrData]) => {
+    if (terrData.popup != undefined) {
+      terrData.popup.setPopupContent(`
+    <table>
+      <tr>
+        <th>Type</th>
+        <th>Costs</th>
+        <th>Products</th>
+        <th>Profit</th>
+      </tr>
+
+      <tr>
+        <td>Emeralds</td>
+        <td>${terrData.costs.emeralds}</td>
+        <td>${terrData.productions.emeralds}</td>
+        <td>${terrData.productions.emeralds - terrData.costs.emeralds}</td>
+      </tr>
+
+      <tr>
+        <td>Wood</td>
+        <td>${terrData.costs.wood}</td>
+        <td>${terrData.productions.wood}</td>
+        <td>${terrData.productions.wood - terrData.costs.wood}</td>
+      </tr>
+
+      <tr>
+        <td>Ore</td>
+        <td>${terrData.costs.ore}</td>
+        <td>${terrData.productions.ore}</td>
+        <td>${terrData.productions.ore - terrData.costs.ore}</td>
+      </tr>
+
+      <tr>
+        <td>Fish</td>
+        <td>${terrData.costs.fish}</td>
+        <td>${terrData.productions.fish}</td>
+        <td>${terrData.productions.fish - terrData.costs.fish}</td>
+      </tr>
+
+      <tr>
+        <td>Crop</td>
+        <td>${terrData.costs.crop}</td>
+        <td>${terrData.productions.crop}</td>
+        <td>${terrData.productions.crop - terrData.costs.crop}</td>
+      </tr>
+    </table>
+    `);
+    }
+  });
+}
+
 function terrOnClick(terrName) {
   if (currentTerrs[terrName].selected == "selected") {
     currentTerrs[terrName].selected = "unselected";
@@ -855,6 +952,8 @@ function updateCards() {
   else {
     $("#terrsBeingModified").text(terrs.join(", "));
   }
+
+  updateRectangles();
 }
 
 function updateJSON(terrs, upgrades) {

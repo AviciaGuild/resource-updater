@@ -28,9 +28,9 @@ const currentTerrs = {
     },
     "upgrades": {
       "efficientResources": 0,
-      "resourceRate": 4,
+      "resourceRate": 0,
       "efficientEmeralds": 0,
-      "emeraldRate": 4
+      "emeraldRate": 0
     }
   },
   "Old Coal Mine": {
@@ -53,9 +53,9 @@ const currentTerrs = {
     },
     "upgrades": {
       "efficientResources": 0,
-      "resourceRate": 4,
+      "resourceRate": 0,
       "efficientEmeralds": 0,
-      "emeraldRate": 4
+      "emeraldRate": 0
     }
   },
   "Kandon Ridge": {
@@ -78,9 +78,9 @@ const currentTerrs = {
     },
     "upgrades": {
       "efficientResources": 0,
-      "resourceRate": 4,
+      "resourceRate": 0,
       "efficientEmeralds": 0,
-      "emeraldRate": 4
+      "emeraldRate": 0
     }
   },
   "Path to Ahmsord Upper": {
@@ -103,9 +103,9 @@ const currentTerrs = {
     },
     "upgrades": {
       "efficientResources": 0,
-      "resourceRate": 4,
+      "resourceRate": 0,
       "efficientEmeralds": 0,
-      "emeraldRate": 4
+      "emeraldRate": 0
     }
   },
   "Path to Ahmsord Lower": {
@@ -128,9 +128,9 @@ const currentTerrs = {
     },
     "upgrades": {
       "efficientResources": 0,
-      "resourceRate": 4,
+      "resourceRate": 0,
       "efficientEmeralds": 0,
-      "emeraldRate": 4
+      "emeraldRate": 0
     }
   },
   "Sky Castle": {
@@ -153,9 +153,9 @@ const currentTerrs = {
     },
     "upgrades": {
       "efficientResources": 0,
-      "resourceRate": 4,
+      "resourceRate": 0,
       "efficientEmeralds": 0,
-      "emeraldRate": 4
+      "emeraldRate": 0
     }
   },
   "Dragonling Nest": {
@@ -178,9 +178,9 @@ const currentTerrs = {
     },
     "upgrades": {
       "efficientResources": 0,
-      "resourceRate": 4,
+      "resourceRate": 0,
       "efficientEmeralds": 0,
-      "emeraldRate": 4
+      "emeraldRate": 0
     }
   },
   "Snail Island": {
@@ -203,9 +203,9 @@ const currentTerrs = {
     },
     "upgrades": {
       "efficientResources": 0,
-      "resourceRate": 4,
+      "resourceRate": 0,
       "efficientEmeralds": 0,
-      "emeraldRate": 4
+      "emeraldRate": 0
     }
   },
   "Temple Island": {
@@ -228,9 +228,9 @@ const currentTerrs = {
     },
     "upgrades": {
       "efficientResources": 0,
-      "resourceRate": 4,
+      "resourceRate": 0,
       "efficientEmeralds": 0,
-      "emeraldRate": 4
+      "emeraldRate": 0
     }
   },
   "Ahmsord": {
@@ -253,9 +253,9 @@ const currentTerrs = {
     },
     "upgrades": {
       "efficientResources": 0,
-      "resourceRate": 4,
+      "resourceRate": 0,
       "efficientEmeralds": 0,
-      "emeraldRate": 4
+      "emeraldRate": 0
     }
   },
   "Astraulus' Tower": {
@@ -278,9 +278,9 @@ const currentTerrs = {
     },
     "upgrades": {
       "efficientResources": 0,
-      "resourceRate": 4,
+      "resourceRate": 0,
       "efficientEmeralds": 0,
-      "emeraldRate": 4
+      "emeraldRate": 0
     }
   },
   "Swamp Island": {
@@ -303,9 +303,9 @@ const currentTerrs = {
     },
     "upgrades": {
       "efficientResources": 0,
-      "resourceRate": 4,
+      "resourceRate": 0,
       "efficientEmeralds": 0,
-      "emeraldRate": 4
+      "emeraldRate": 0
     }
   },
   "Ahmsord Outskirts": {
@@ -328,9 +328,9 @@ const currentTerrs = {
     },
     "upgrades": {
       "efficientResources": 0,
-      "resourceRate": 4,
+      "resourceRate": 0,
       "efficientEmeralds": 0,
-      "emeraldRate": 4
+      "emeraldRate": 0
     }
   },
   "Central Islands": {
@@ -353,9 +353,9 @@ const currentTerrs = {
     },
     "upgrades": {
       "efficientResources": 0,
-      "resourceRate": 4,
+      "resourceRate": 0,
       "efficientEmeralds": 0,
-      "emeraldRate": 4
+      "emeraldRate": 0
     }
   },
   "Sky Island Ascent": {
@@ -378,9 +378,9 @@ const currentTerrs = {
     },
     "upgrades": {
       "efficientResources": 0,
-      "resourceRate": 4,
+      "resourceRate": 0,
       "efficientEmeralds": 0,
-      "emeraldRate": 4
+      "emeraldRate": 0
     }
   },
   "Jofash Tunnel": {
@@ -403,9 +403,9 @@ const currentTerrs = {
     },
     "upgrades": {
       "efficientResources": 0,
-      "resourceRate": 4,
+      "resourceRate": 0,
       "efficientEmeralds": 0,
-      "emeraldRate": 4
+      "emeraldRate": 0
     }
   },
   "Jofash Docks": {
@@ -428,9 +428,9 @@ const currentTerrs = {
     },
     "upgrades": {
       "efficientResources": 0,
-      "resourceRate": 4,
+      "resourceRate": 0,
       "efficientEmeralds": 0,
-      "emeraldRate": 4
+      "emeraldRate": 0
     }
   },
   "Molten Reach": {
@@ -453,9 +453,9 @@ const currentTerrs = {
     },
     "upgrades": {
       "efficientResources": 0,
-      "resourceRate": 4,
+      "resourceRate": 0,
       "efficientEmeralds": 0,
-      "emeraldRate": 4
+      "emeraldRate": 0
     }
   },
   "Wybel Island": {
@@ -478,9 +478,9 @@ const currentTerrs = {
     },
     "upgrades": {
       "efficientResources": 0,
-      "resourceRate": 4,
+      "resourceRate": 0,
       "efficientEmeralds": 0,
-      "emeraldRate": 4
+      "emeraldRate": 0
     }
   },
   "Angel Refuge": {
@@ -503,9 +503,9 @@ const currentTerrs = {
     },
     "upgrades": {
       "efficientResources": 0,
-      "resourceRate": 4,
+      "resourceRate": 0,
       "efficientEmeralds": 0,
-      "emeraldRate": 4
+      "emeraldRate": 0
     }
   },
   "Sky falls": {
@@ -528,9 +528,9 @@ const currentTerrs = {
     },
     "upgrades": {
       "efficientResources": 0,
-      "resourceRate": 4,
+      "resourceRate": 0,
       "efficientEmeralds": 0,
-      "emeraldRate": 4
+      "emeraldRate": 0
     }
   },
   "Frozen Fort": {
@@ -553,9 +553,9 @@ const currentTerrs = {
     },
     "upgrades": {
       "efficientResources": 0,
-      "resourceRate": 4,
+      "resourceRate": 0,
       "efficientEmeralds": 0,
-      "emeraldRate": 4
+      "emeraldRate": 0
     }
   },
   "Raider's Base Upper": {
@@ -578,9 +578,9 @@ const currentTerrs = {
     },
     "upgrades": {
       "efficientResources": 0,
-      "resourceRate": 4,
+      "resourceRate": 0,
       "efficientEmeralds": 0,
-      "emeraldRate": 4
+      "emeraldRate": 0
     }
   },
   "Raider's Base Lower": {
@@ -603,9 +603,9 @@ const currentTerrs = {
     },
     "upgrades": {
       "efficientResources": 0,
-      "resourceRate": 4,
+      "resourceRate": 0,
       "efficientEmeralds": 0,
-      "emeraldRate": 4
+      "emeraldRate": 0
     }
   },
   "Regular Island": {
@@ -628,9 +628,9 @@ const currentTerrs = {
     },
     "upgrades": {
       "efficientResources": 0,
-      "resourceRate": 4,
+      "resourceRate": 0,
       "efficientEmeralds": 0,
-      "emeraldRate": 4
+      "emeraldRate": 0
     }
   },
   "Dead Island North East": {
@@ -653,9 +653,9 @@ const currentTerrs = {
     },
     "upgrades": {
       "efficientResources": 0,
-      "resourceRate": 4,
+      "resourceRate": 0,
       "efficientEmeralds": 0,
-      "emeraldRate": 4
+      "emeraldRate": 0
     }
   },
   "Dead Island North West": {
@@ -678,9 +678,9 @@ const currentTerrs = {
     },
     "upgrades": {
       "efficientResources": 0,
-      "resourceRate": 4,
+      "resourceRate": 0,
       "efficientEmeralds": 0,
-      "emeraldRate": 4
+      "emeraldRate": 0
     }
   },
   "Dead Island South East": {
@@ -703,9 +703,9 @@ const currentTerrs = {
     },
     "upgrades": {
       "efficientResources": 0,
-      "resourceRate": 4,
+      "resourceRate": 0,
       "efficientEmeralds": 0,
-      "emeraldRate": 4
+      "emeraldRate": 0
     }
   },
   "Dead Island South West": {
@@ -728,18 +728,13 @@ const currentTerrs = {
     },
     "upgrades": {
       "efficientResources": 0,
-      "resourceRate": 4,
+      "resourceRate": 0,
       "efficientEmeralds": 0,
-      "emeraldRate": 4
+      "emeraldRate": 0
     }
   }
 }
-const currentUpgrades = {
-  "efficientResources": 0,
-  "resourceRate": 0,
-  "efficientEmeralds": 0,
-  "emeraldRate": 0
-}
+let currentUpgrades = { "efficientResources": 0, "resourceRate": 0, "efficientEmeralds": 0, "emeraldRate": 0 }
 
 const resourceAmtUpgrades = [0, 50, 100, 150, 200, 250, 300];
 const resourceAmtUpgradesCosts = [0, 6000, 12000, 24000, 48000, 96000, 192000];
@@ -762,7 +757,24 @@ function terrOnClick(terrName) {
     currentTerrs[terrName].selected = "selected";
   }
 
+  const selectedTerrs = Object.keys(currentTerrs).filter(terrName => currentTerrs[terrName].selected == "selected");
+  if (selectedTerrs.length == 0) {
+    currentUpgrades = { "efficientResources": 0, "resourceRate": 0, "efficientEmeralds": 0, "emeraldRate": 0 }
+    updateUpgradeText(currentUpgrades);
+  }
+  else if (selectedTerrs.length == 1) {
+    currentUpgrades = currentTerrs[selectedTerrs[0]].upgrades;
+    updateUpgradeText(currentUpgrades);
+  }
+
   updateCards();
+}
+
+function updateUpgradeText(currentUpgrades) {
+  $("#efficientResources").text(`Efficient Resources: ${resourceAmtUpgrades[currentUpgrades.efficientResources]}% (${currentUpgrades.efficientResources})`);
+  $("#resourceRate").text(`Resource Rate: ${resourceTimes[currentUpgrades.resourceRate]}s (${currentUpgrades.resourceRate})`);
+  $("#efficientEmeralds").text(`Efficient Emeralds: ${emeraldsAmtUpgrades[currentUpgrades.efficientEmeralds]}% (${currentUpgrades.efficientEmeralds})`);
+  $("#emeraldRate").text(`Emerald Rate: ${emeraldsTimes[currentUpgrades.emeraldRate]}s (${currentUpgrades.emeraldRate})`);
 }
 
 function updateCards() {
@@ -771,10 +783,10 @@ function updateCards() {
   const totalProfit = { "emeralds": 0, "wood": 0, "fish": 0, "ore": 0, "crop": 0 };
 
   $(".terrs").empty();
-  let currentTerrsKeyse = Object.keys(currentTerrs);
-  currentTerrsKeyse.sort();
+  let currentTerrsKeys = Object.keys(currentTerrs);
+  currentTerrsKeys.sort();
 
-  currentTerrsKeyse.forEach(terrName => {
+  currentTerrsKeys.forEach(terrName => {
     const terrData = currentTerrs[terrName];
 
     $(".terrs").append(`
@@ -881,8 +893,6 @@ function modifyUpgrade() {
     else if (objID.includes("Up") && amountInUpgrade < 6) {
       amountInUpgrade++;
     }
-
-    $("#" + upgradeType).text(startingText + ": " + resourceAmtUpgrades[amountInUpgrade] + "% (" + amountInUpgrade + ")");
   }
   else if (upgradeType == "efficientEmeralds") {
     amountInUpgrade = parseInt(text.split(": ")[1].split("%")[1].replace(" (", "").replace(")"));
@@ -893,8 +903,6 @@ function modifyUpgrade() {
     else if (objID.includes("Up") && amountInUpgrade < 3) {
       amountInUpgrade++;
     }
-
-    $("#" + upgradeType).text(startingText + ": " + emeraldsAmtUpgrades[amountInUpgrade] + "% (" + amountInUpgrade + ")");
   }
   else {
     amountInUpgrade = parseInt(text.split(": ")[1].split("s")[1].replace(" (", "").replace(")"));
@@ -905,74 +913,10 @@ function modifyUpgrade() {
     else if (objID.includes("Up") && amountInUpgrade < 3) {
       amountInUpgrade++;
     }
-
-    $("#" + upgradeType).text(startingText + ": " + resourceTimes[amountInUpgrade] + "s (" + amountInUpgrade + ")");
   }
 
   currentUpgrades[upgradeType] = amountInUpgrade;
   const terrs = Object.keys(currentTerrs).filter(terrName => currentTerrs[terrName].selected == "selected");
   updateJSON(terrs, currentUpgrades);
-
-  // if (objId.includes("Down")) {
-  //   const id = objId.slice(0, objId.length - 4);
-  //   const text = $('#' + id).text();
-  //   const type = text.split(": ")[0];
-
-  //   if (text.includes("Rate")) {
-  //     let val = parseInt(text.split(": ")[1].split("s")[0]);
-  //     let num = parseInt(text.split(": ")[1].split("s")[1].replace(" (", "").replace(")"));
-  //     console.log(num);
-
-  //     if (val > 1) {
-  //       val -= 1;
-  //       num++;
-  //     }
-
-  //     currentUpgrades[id] = val;
-  //     $("#" + id).text(type + ": " + val + "s (" + num + ")")
-  //   }
-  //   else {
-  //     let val = parseInt(text.split(": ")[1].split("%")[0]);
-  //     let num = parseInt(text.split(": ")[1].split("%")[1].replace(" (", "").replace(")"));
-
-  //     if (val > 0) {
-
-  //       val -= 50;
-  //       num--;
-  //     }
-
-  //     currentUpgrades[id] = val;
-  //     $("#" + id).text(type + ": " + val + "% (" + num + ")")
-  //   }
-  // }
-  // else {
-  //   const id = objId.slice(0, objId.length - 2);
-  //   const text = $('#' + id).text();
-  //   const type = text.split(": ")[0];
-
-  //   if (text.includes("Rate")) {
-  //     let val = parseInt(text.split(": ")[1].split("s")[0]);
-  //     let num = parseInt(text.split(": ")[1].split("s")[1].replace(" (", "").replace(")"));
-
-  //     if (val < 4) {
-  //       val += 1;
-  //       num--;
-  //     }
-
-  //     currentUpgrades[id] = val;
-  //     $("#" + id).text(type + ": " + val + "s (" + num + ")")
-  //   }
-  //   else {
-  //     let val = parseInt(text.split(": ")[1].split("%")[0]);
-  //     let num = parseInt(text.split(": ")[1].split("%")[1].replace(" (", "").replace(")"));
-
-  //     if (val < 300) {
-  //       val += 50;
-  //       num++;
-  //     }
-
-  //     currentUpgrades[id] = val;
-  //     $("#" + id).text(type + ": " + val + "% (" + num + ")")
-  //   }
-  // }
+  updateUpgradeText(currentUpgrades);
 }

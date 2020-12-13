@@ -1,8 +1,14 @@
 .terr {
-  background-color: #6db1ff;
+  background-color: #a6cfff;
   border-radius: 2rem;
   padding: 10px;
   margin: 10px;
+  cursor: pointer;
+}
+
+.selected {
+  background-color: #6db1ff !important;
+  border: 1px solid black;
 }
 
 .totalProduction {
@@ -13,9 +19,7 @@
 }
 
 #terrsToModify {
-  resize: none;
-  width: 80%;
-  height: 100px;
+  margin: 20px;
 }
 
 .arrowText {

@@ -798,49 +798,50 @@ function updateRectangles() {
   Object.entries(currentTerrs).forEach(([terrName, terrData]) => {
     if (terrData.popup != undefined) {
       terrData.popup.setPopupContent(`
-    <table>
-      <tr>
-        <th>Type</th>
-        <th>Costs</th>
-        <th>Products</th>
-        <th>Profit</th>
-      </tr>
+      <strong>${terrName}</strong>
+      <table>
+        <tr>
+          <th>Type</th>
+          <th>Costs</th>
+          <th>Products</th>
+          <th>Profit</th>
+        </tr>
 
-      <tr>
-        <td>Emeralds</td>
-        <td>${terrData.costs.emeralds}</td>
-        <td>${terrData.productions.emeralds}</td>
-        <td>${terrData.productions.emeralds - terrData.costs.emeralds}</td>
-      </tr>
+        <tr>
+          <td>Emeralds</td>
+          <td>${terrData.costs.emeralds}</td>
+          <td>${terrData.productions.emeralds}</td>
+          <td>${terrData.productions.emeralds - terrData.costs.emeralds}</td>
+        </tr>
 
-      <tr>
-        <td>Wood</td>
-        <td>${terrData.costs.wood}</td>
-        <td>${terrData.productions.wood}</td>
-        <td>${terrData.productions.wood - terrData.costs.wood}</td>
-      </tr>
+        <tr>
+          <td>Wood</td>
+          <td>${terrData.costs.wood}</td>
+          <td>${terrData.productions.wood}</td>
+          <td>${terrData.productions.wood - terrData.costs.wood}</td>
+        </tr>
 
-      <tr>
-        <td>Ore</td>
-        <td>${terrData.costs.ore}</td>
-        <td>${terrData.productions.ore}</td>
-        <td>${terrData.productions.ore - terrData.costs.ore}</td>
-      </tr>
+        <tr>
+          <td>Ore</td>
+          <td>${terrData.costs.ore}</td>
+          <td>${terrData.productions.ore}</td>
+          <td>${terrData.productions.ore - terrData.costs.ore}</td>
+        </tr>
 
-      <tr>
-        <td>Fish</td>
-        <td>${terrData.costs.fish}</td>
-        <td>${terrData.productions.fish}</td>
-        <td>${terrData.productions.fish - terrData.costs.fish}</td>
-      </tr>
+        <tr>
+          <td>Fish</td>
+          <td>${terrData.costs.fish}</td>
+          <td>${terrData.productions.fish}</td>
+          <td>${terrData.productions.fish - terrData.costs.fish}</td>
+        </tr>
 
-      <tr>
-        <td>Crop</td>
-        <td>${terrData.costs.crop}</td>
-        <td>${terrData.productions.crop}</td>
-        <td>${terrData.productions.crop - terrData.costs.crop}</td>
-      </tr>
-    </table>
+        <tr>
+          <td>Crop</td>
+          <td>${terrData.costs.crop}</td>
+          <td>${terrData.productions.crop}</td>
+          <td>${terrData.productions.crop - terrData.costs.crop}</td>
+        </tr>
+      </table>
     `);
     }
   });

@@ -160,7 +160,7 @@ const currentTerrs = {
   },
   "Dragonling Nests": {
     "type": "wood",
-    "baseResources": 3600,
+    "baseResources": 7200,
     "selected": "unselected",
     "productions": {
       "emeralds": 0,
@@ -410,7 +410,7 @@ const currentTerrs = {
   },
   "Jofash Docks": {
     "type": "fish",
-    "baseResources": 3600,
+    "baseResources": 7200,
     "selected": "unselected",
     "productions": {
       "emeralds": 0,

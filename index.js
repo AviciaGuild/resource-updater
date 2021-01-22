@@ -30,6 +30,7 @@ function updateCurrentTerrs() {
       const value = {
         "type": resources,
         "baseResources": terrData[terr].resources[resources[0]],
+        "baseEmeralds": terrData[terr].resources.emeralds,
         "selected": "unselected",
         "productions": {
           "emeralds": 0,
@@ -279,7 +280,7 @@ function updateJSON(terrs, upgrades) {
     currentTerrs[terr].type.forEach(type => {
       currentTerrs[terr].productions[type] = ((currentTerrs[terr].baseResources / 900) * (1 + (resourceAmtUpgrades[upgrades.efficientResources] / 100)) * (60 * (60 / resourceTimes[upgrades.resourceRate])));
     });
-    currentTerrs[terr].productions.emeralds = (10 * (1 + (emeraldsAmtUpgrades[upgrades.efficientEmeralds] / 100)) * (60 * (60 / emeraldsTimes[upgrades.emeraldRate])));
+    currentTerrs[terr].productions.emeralds = ((currentTerrs[terr].baseEmeralds / 900) * (1 + (emeraldsAmtUpgrades[upgrades.efficientEmeralds] / 100)) * (60 * (60 / emeraldsTimes[upgrades.emeraldRate])));
 
     currentTerrs[terr].costs.emeralds = resourceAmtUpgradesCosts[resourceAmtUpgrades.indexOf(resourceAmtUpgrades[currentTerrs[terr].upgrades.efficientResources])];
     currentTerrs[terr].costs.emeralds += resourceTimesCosts[resourceTimes.indexOf(resourceTimes[currentTerrs[terr].upgrades.resourceRate])];

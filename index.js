@@ -344,6 +344,14 @@ function updateCards() {
   let currentTerrsKeys = Object.keys(currentTerrs);
   currentTerrsKeys.sort();
 
+  Object.keys(totalCosts).forEach(resourceType => {
+    const sentValue = parseInt($(`#trade${resourceType}Sent`).val());
+    const receivedValue = parseInt($(`#trade${resourceType}Received`).val());
+
+    totalCosts[resourceType] = sentValue > 0 ? sentValue : 0;
+    totalProduction[resourceType] = receivedValue > 0 ? receivedValue : 0;
+  });
+
   currentTerrsKeys.forEach(terrName => {
     const terrData = currentTerrs[terrName];
 
@@ -457,11 +465,6 @@ function updateTerrOutputs(terrs) {
     Object.entries(upgradesJSON).forEach(([upgradeType, upgradeData]) => {
       currentTerrs[terr].costs[upgradeData.resource] += upgradeData.costs[upgradeData.current];
     });
-
-    // currentTerrs[terr].costs.emeralds = upgradesJSON.efficientResources.costs[upgradesJSON.efficientResources.current];
-    // currentTerrs[terr].costs.emeralds += upgradesJSON.resourceRate.costs[upgradesJSON.resourceRate.current];
-    // currentTerrs[terr].costs.ore = upgradesJSON.efficientEmeralds.costs[upgradesJSON.efficientEmeralds.current];
-    // currentTerrs[terr].costs.crops = upgradesJSON.emeraldRate.costs[upgradesJSON.emeraldRate.current];
   });
 
   updateCards();

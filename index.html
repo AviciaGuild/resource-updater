@@ -37,26 +37,7 @@
         <h4 id="terrsBeingModified">None</h4>
 
         <div class="row upgrades">
-          <div class="col">
-            <button class="modifyUpgrade btn btn-warning" id="efficientResourcesDown">-</button>
-            <div class="arrowText" id="efficientResources">Efficient Resources: 0% (0)</div>
-            <button class="modifyUpgrade btn btn-warning" id="efficientResourcesUp">+</button>
-          </div>
-          <div class="col">
-            <button class="modifyUpgrade btn btn-warning" id="resourceRateDown">-</button>
-            <div class="arrowText" id="resourceRate">Resource Rate: 4s (0)</div>
-            <button class="modifyUpgrade btn btn-warning" id="resourceRateUp">+</button>
-          </div>
-          <div class="col">
-            <button class="modifyUpgrade btn btn-warning" id="efficientEmeraldsDown">-</button>
-            <div class="arrowText" id="efficientEmeralds">Efficient Emeralds: 0% (0)</div>
-            <button class="modifyUpgrade btn btn-warning" id="efficientEmeraldsUp">+</button>
-          </div>
-          <div class="col">
-            <button class="modifyUpgrade btn btn-warning" id="emeraldRateDown">-</button>
-            <div class="arrowText" id="emeraldRate">Emerald Rate: 4s (0)</div>
-            <button class="modifyUpgrade btn btn-warning" id="emeraldRateUp">+</button>
-          </div>
+          Gets filled in dynamically
         </div>
       </div>
     </div>
@@ -66,6 +47,36 @@
     <div class="row">
       <div class="col">
         <div class="row terrs"></div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <div class="trading form-horizontal">
+          <h3>Trading:</h3>
+          <h4>Resources being sent</h4>
+          <input type="number" min=0 class="form-control tradeInput" id="tradeemeraldsSent"
+            placeholder="Emeralds being sent through trade" onkeyup="updateCards()"/>
+          <input type="number" min=0 class="form-control tradeInput" id="tradewoodSent"
+            placeholder="Wood being sent through trade" onkeyup="updateCards()"/>
+          <input type="number" min=0 class="form-control tradeInput" id="tradefishSent"
+            placeholder="Fish being sent through trade" onkeyup="updateCards()"/>
+          <input type="number" min=0 class="form-control tradeInput" id="tradeoreSent"
+            placeholder="Ore being sent through trade" onkeyup="updateCards()"/>
+          <input type="number" min=0 class="form-control tradeInput" id="tradecropsSent"
+            placeholder="Crops being sent through trade" onkeyup="updateCards()"/>
+          <h4>Resources being received</h4>
+          <input type="number" min=0 class="form-control tradeInput" id="tradeemeraldsReceived"
+            placeholder="Emeralds being received through trade" onkeyup="updateCards()"/>
+          <input type="number" min=0 class="form-control tradeInput" id="tradewoodReceived"
+            placeholder="Wood being received through trade" onkeyup="updateCards()"/>
+          <input type="number" min=0 class="form-control tradeInput" id="tradefishReceived"
+            placeholder="Fish being received through trade" onkeyup="updateCards()"/>
+          <input type="number" min=0 class="form-control tradeInput" id="tradeoreReceived"
+            placeholder="Ore being received through trade" onkeyup="updateCards()"/>
+          <input type="number" min=0 class="form-control tradeInput" id="tradecropsReceived"
+            placeholder="Crops being received through trade" onkeyup="updateCards()"/>
+        </div>
       </div>
     </div>
   </div>

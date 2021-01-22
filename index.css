@@ -47,3 +47,12 @@
 th, td {
   padding: 5px;
 }
+
+.tradeInput {
+  margin: 5px;
+}
+
+#updateTrade {
+  margin: 5px;
+  width: 100%;
+}

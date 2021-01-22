@@ -7,733 +7,8 @@ $("#efficientEmeraldsUp").click(modifyUpgrade);
 $("#emeraldRateDown").click(modifyUpgrade);
 $("#emeraldRateUp").click(modifyUpgrade);
 
-const currentTerrs = {
-  "Kandon Farm": {
-    "type": "crop",
-    "baseResources": 3600,
-    "selected": "unselected",
-    "productions": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "costs": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "upgrades": {
-      "efficientResources": 0,
-      "resourceRate": 0,
-      "efficientEmeralds": 0,
-      "emeraldRate": 0
-    }
-  },
-  "Old Coal Mine": {
-    "type": "ore",
-    "baseResources": 3600,
-    "selected": "unselected",
-    "productions": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "costs": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "upgrades": {
-      "efficientResources": 0,
-      "resourceRate": 0,
-      "efficientEmeralds": 0,
-      "emeraldRate": 0
-    }
-  },
-  "Kandon Ridge": {
-    "type": "wood",
-    "baseResources": 3600,
-    "selected": "unselected",
-    "productions": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "costs": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "upgrades": {
-      "efficientResources": 0,
-      "resourceRate": 0,
-      "efficientEmeralds": 0,
-      "emeraldRate": 0
-    }
-  },
-  "Path to Ahmsord Upper": {
-    "type": "wood",
-    "baseResources": 3600,
-    "selected": "unselected",
-    "productions": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "costs": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "upgrades": {
-      "efficientResources": 0,
-      "resourceRate": 0,
-      "efficientEmeralds": 0,
-      "emeraldRate": 0
-    }
-  },
-  "Path to Ahmsord Lower": {
-    "type": "wood",
-    "baseResources": 3600,
-    "selected": "unselected",
-    "productions": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "costs": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "upgrades": {
-      "efficientResources": 0,
-      "resourceRate": 0,
-      "efficientEmeralds": 0,
-      "emeraldRate": 0
-    }
-  },
-  "Sky Castle": {
-    "type": "wood",
-    "baseResources": 3600,
-    "selected": "unselected",
-    "productions": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "costs": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "upgrades": {
-      "efficientResources": 0,
-      "resourceRate": 0,
-      "efficientEmeralds": 0,
-      "emeraldRate": 0
-    }
-  },
-  "Dragonling Nests": {
-    "type": "wood",
-    "baseResources": 7200,
-    "selected": "unselected",
-    "productions": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "costs": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "upgrades": {
-      "efficientResources": 0,
-      "resourceRate": 0,
-      "efficientEmeralds": 0,
-      "emeraldRate": 0
-    }
-  },
-  "Snail Island": {
-    "type": "wood",
-    "baseResources": 3600,
-    "selected": "unselected",
-    "productions": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "costs": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "upgrades": {
-      "efficientResources": 0,
-      "resourceRate": 0,
-      "efficientEmeralds": 0,
-      "emeraldRate": 0
-    }
-  },
-  "Temple Island": {
-    "type": "wood",
-    "baseResources": 3600,
-    "selected": "unselected",
-    "productions": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "costs": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "upgrades": {
-      "efficientResources": 0,
-      "resourceRate": 0,
-      "efficientEmeralds": 0,
-      "emeraldRate": 0
-    }
-  },
-  "Ahmsord": {
-    "type": "wood",
-    "baseResources": 3600,
-    "selected": "unselected",
-    "productions": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "costs": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "upgrades": {
-      "efficientResources": 0,
-      "resourceRate": 0,
-      "efficientEmeralds": 0,
-      "emeraldRate": 0
-    }
-  },
-  "Astraulus' Tower": {
-    "type": "wood",
-    "baseResources": 3600,
-    "selected": "unselected",
-    "productions": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "costs": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "upgrades": {
-      "efficientResources": 0,
-      "resourceRate": 0,
-      "efficientEmeralds": 0,
-      "emeraldRate": 0
-    }
-  },
-  "Swamp Island": {
-    "type": "wood",
-    "baseResources": 3600,
-    "selected": "unselected",
-    "productions": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "costs": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "upgrades": {
-      "efficientResources": 0,
-      "resourceRate": 0,
-      "efficientEmeralds": 0,
-      "emeraldRate": 0
-    }
-  },
-  "Ahmsord Outskirts": {
-    "type": "wood",
-    "baseResources": 3600,
-    "selected": "unselected",
-    "productions": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "costs": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "upgrades": {
-      "efficientResources": 0,
-      "resourceRate": 0,
-      "efficientEmeralds": 0,
-      "emeraldRate": 0
-    }
-  },
-  "Central Islands": {
-    "type": "wood",
-    "baseResources": 3600,
-    "selected": "unselected",
-    "productions": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "costs": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "upgrades": {
-      "efficientResources": 0,
-      "resourceRate": 0,
-      "efficientEmeralds": 0,
-      "emeraldRate": 0
-    }
-  },
-  "Sky Island Ascent": {
-    "type": "ore",
-    "baseResources": 3600,
-    "selected": "unselected",
-    "productions": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "costs": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "upgrades": {
-      "efficientResources": 0,
-      "resourceRate": 0,
-      "efficientEmeralds": 0,
-      "emeraldRate": 0
-    }
-  },
-  "Jofash Tunnel": {
-    "type": "ore",
-    "baseResources": 3600,
-    "selected": "unselected",
-    "productions": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "costs": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "upgrades": {
-      "efficientResources": 0,
-      "resourceRate": 0,
-      "efficientEmeralds": 0,
-      "emeraldRate": 0
-    }
-  },
-  "Jofash Docks": {
-    "type": "fish",
-    "baseResources": 7200,
-    "selected": "unselected",
-    "productions": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "costs": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "upgrades": {
-      "efficientResources": 0,
-      "resourceRate": 0,
-      "efficientEmeralds": 0,
-      "emeraldRate": 0
-    }
-  },
-  "Molten Reach": {
-    "type": "ore",
-    "baseResources": 3600,
-    "selected": "unselected",
-    "productions": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "costs": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "upgrades": {
-      "efficientResources": 0,
-      "resourceRate": 0,
-      "efficientEmeralds": 0,
-      "emeraldRate": 0
-    }
-  },
-  "Wybel Island": {
-    "type": "wood",
-    "baseResources": 3600,
-    "selected": "unselected",
-    "productions": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "costs": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "upgrades": {
-      "efficientResources": 0,
-      "resourceRate": 0,
-      "efficientEmeralds": 0,
-      "emeraldRate": 0
-    }
-  },
-  "Angel Refuge": {
-    "type": "wood",
-    "baseResources": 3600,
-    "selected": "unselected",
-    "productions": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "costs": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "upgrades": {
-      "efficientResources": 0,
-      "resourceRate": 0,
-      "efficientEmeralds": 0,
-      "emeraldRate": 0
-    }
-  },
-  "Sky Falls": {
-    "type": "ore",
-    "baseResources": 3600,
-    "selected": "unselected",
-    "productions": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "costs": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "upgrades": {
-      "efficientResources": 0,
-      "resourceRate": 0,
-      "efficientEmeralds": 0,
-      "emeraldRate": 0
-    }
-  },
-  "Frozen Fort": {
-    "type": "fish",
-    "baseResources": 3600,
-    "selected": "unselected",
-    "productions": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "costs": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "upgrades": {
-      "efficientResources": 0,
-      "resourceRate": 0,
-      "efficientEmeralds": 0,
-      "emeraldRate": 0
-    }
-  },
-  "Raider's Base Upper": {
-    "type": "ore",
-    "baseResources": 3600,
-    "selected": "unselected",
-    "productions": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "costs": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "upgrades": {
-      "efficientResources": 0,
-      "resourceRate": 0,
-      "efficientEmeralds": 0,
-      "emeraldRate": 0
-    }
-  },
-  "Raider's Base Lower": {
-    "type": "ore",
-    "baseResources": 3600,
-    "selected": "unselected",
-    "productions": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "costs": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "upgrades": {
-      "efficientResources": 0,
-      "resourceRate": 0,
-      "efficientEmeralds": 0,
-      "emeraldRate": 0
-    }
-  },
-  "Regular Island": {
-    "type": "fish",
-    "baseResources": 3600,
-    "selected": "unselected",
-    "productions": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "costs": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "upgrades": {
-      "efficientResources": 0,
-      "resourceRate": 0,
-      "efficientEmeralds": 0,
-      "emeraldRate": 0
-    }
-  },
-  "Dead Island North East": {
-    "type": "fish",
-    "baseResources": 3600,
-    "selected": "unselected",
-    "productions": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "costs": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "upgrades": {
-      "efficientResources": 0,
-      "resourceRate": 0,
-      "efficientEmeralds": 0,
-      "emeraldRate": 0
-    }
-  },
-  "Dead Island North West": {
-    "type": "fish",
-    "baseResources": 3600,
-    "selected": "unselected",
-    "productions": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "costs": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "upgrades": {
-      "efficientResources": 0,
-      "resourceRate": 0,
-      "efficientEmeralds": 0,
-      "emeraldRate": 0
-    }
-  },
-  "Dead Island South East": {
-    "type": "fish",
-    "baseResources": 3600,
-    "selected": "unselected",
-    "productions": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "costs": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "upgrades": {
-      "efficientResources": 0,
-      "resourceRate": 0,
-      "efficientEmeralds": 0,
-      "emeraldRate": 0
-    }
-  },
-  "Dead Island South West": {
-    "type": "fish",
-    "baseResources": 3600,
-    "selected": "unselected",
-    "productions": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "costs": {
-      "emeralds": 0,
-      "wood": 0,
-      "fish": 0,
-      "ore": 0,
-      "crop": 0
-    },
-    "upgrades": {
-      "efficientResources": 0,
-      "resourceRate": 0,
-      "efficientEmeralds": 0,
-      "emeraldRate": 0
-    }
-  }
-}
+const currentTerrNames = ["Kandon Farm", "Old Coal Mine", "Kandon Ridge", "Path to Ahmsord Upper", "Path to Ahmsord Lower", "Sky Castle", "Dragonling Nests", "Snail Island", "Temple Island", "Ahmsord", "Astraulus' Tower", "Swamp Island", "Ahmsord Outskirts", "Central Islands", "Sky Island Ascent", "Jofash Tunnel", "Jofash Docks", "Molten Reach", "Wybel Island", "Angel Refuge", "Sky Falls", "Frozen Fort", "Raider's Base Upper", "Raider's Base Lower", "Thesead Suburbs", "Molten Heights Portal", "Crater Descent", "Rodoroc", "Lava Lake Bridge", "Lava Lake", "Active Volcano", "Volcanic Slope", "Entrance to Rodoroc", "Eltom", "Ranol's Farm"];
+const currentTerrs = {};
 let currentUpgrades = { "efficientResources": 0, "resourceRate": 0, "efficientEmeralds": 0, "emeraldRate": 0 }
 
 const resourceAmtUpgrades = [0, 50, 100, 150, 200, 250, 300];
@@ -746,10 +21,47 @@ const emeraldsAmtUpgradesCosts = [0, 2000, 8000, 32000];
 const emeraldsTimes = [4, 3, 2, 1];
 const emeraldsTimesCosts = [0, 2000, 8000, 32000];
 
-updateJSON(Object.keys(currentTerrs), currentUpgrades);
-updateCards();
+updateCurrentTerrs();
 
-updateMap();
+function updateCurrentTerrs() {
+  $.get("https://www.avicia.tk/map/terralldata.json", function (terrData) {
+    currentTerrNames.forEach(terr => {
+      const resources = Object.keys(terrData[terr].resources).filter(resourceType => terrData[terr].resources[resourceType] != 0 && resourceType != "emeralds");
+      const value = {
+        "type": resources,
+        "baseResources": terrData[terr].resources[resources[0]],
+        "selected": "unselected",
+        "productions": {
+          "emeralds": 0,
+          "wood": 0,
+          "fish": 0,
+          "ore": 0,
+          "crops": 0
+        },
+        "costs": {
+          "emeralds": 0,
+          "wood": 0,
+          "fish": 0,
+          "ore": 0,
+          "crops": 0
+        },
+        "upgrades": {
+          "efficientResources": 0,
+          "resourceRate": 0,
+          "efficientEmeralds": 0,
+          "emeraldRate": 0
+        }
+      };
+
+      currentTerrs[terr] = value;
+    });
+
+    updateJSON(Object.keys(currentTerrs), currentUpgrades);
+    updateCards();
+
+    updateMap();
+  });
+}
 
 function updateMap() {
   const map = L.map("map", {
@@ -766,14 +78,14 @@ function updateMap() {
   let minX = 550;
   let maxX = 1620;
   let xRange = Math.abs(maxX - minX);
-  let minY = -5120;
-  let maxY = -3560;
+  let minY = -5675;
+  let maxY = -3820;
   let yRange = Math.abs(maxY - minY);
 
-  $.get("https://api.wynncraft.com/public_api.php?action=territoryList", function (terrData) {
-
+  $.get("https://www.avicia.tk/map/territories.json", function (terrData) {
     Object.keys(currentTerrs).forEach(terr => {
-      let bounds = [[terrData.territories[terr].location.startY, terrData.territories[terr].location.startX], [terrData.territories[terr].location.endY, terrData.territories[terr].location.endX]];
+      let currentTerrData = terrData.find(e => e.name == terr);
+      let bounds = [[currentTerrData.start.split(",")[1], currentTerrData.start.split(",")[0]], [currentTerrData.end.split(",")[1], currentTerrData.end.split(",")[0]]];
 
       bounds[0][0] = 7 - ((bounds[0][0] - minY) * 7 / yRange);
       bounds[0][1] = (bounds[0][1] - minX) * 7 / xRange;
@@ -837,9 +149,9 @@ function updateRectangles() {
 
         <tr>
           <td>Crop</td>
-          <td>${terrData.costs.crop}</td>
-          <td>${terrData.productions.crop}</td>
-          <td>${terrData.productions.crop - terrData.costs.crop}</td>
+          <td>${terrData.costs.crops}</td>
+          <td>${terrData.productions.crops}</td>
+          <td>${terrData.productions.crops - terrData.costs.crops}</td>
         </tr>
       </table>
     `);
@@ -876,9 +188,9 @@ function updateUpgradeText(currentUpgrades) {
 }
 
 function updateCards() {
-  const totalProduction = { "emeralds": 0, "wood": 0, "fish": 0, "ore": 0, "crop": 0 };
-  const totalCosts = { "emeralds": 0, "wood": 0, "fish": 0, "ore": 0, "crop": 0 };
-  const totalProfit = { "emeralds": 0, "wood": 0, "fish": 0, "ore": 0, "crop": 0 };
+  const totalProduction = { "emeralds": 0, "wood": 0, "fish": 0, "ore": 0, "crops": 0 };
+  const totalCosts = { "emeralds": 0, "wood": 0, "fish": 0, "ore": 0, "crops": 0 };
+  const totalProfit = { "emeralds": 0, "wood": 0, "fish": 0, "ore": 0, "crops": 0 };
 
   $(".terrs").empty();
   let currentTerrsKeys = Object.keys(currentTerrs);
@@ -894,13 +206,13 @@ function updateCards() {
           <strong>${terrName}</strong>
         </div>
         <div class="type">
-          ${terrData.type.slice(0, 1).toUpperCase() + terrData.type.slice(1)}
+          ${terrData.type.map(e => e.slice(0, 1).toUpperCase() + e.slice(1)).join(", ")}
         </div>
         <div class="costs">
           ${terrData.productions.emeralds} emeralds
         </div>
         <div class="production">
-          ${terrData.productions[terrData.type]} ${terrData.type}
+          ${terrData.type.map(type => terrData.productions[type] + " " + type).join("<br>")}
         </div>
       </div>
     </div>
@@ -925,7 +237,7 @@ function updateCards() {
     <strong>Wood:</strong> ${totalProduction.wood}<br>
     <strong>Fish:</strong> ${totalProduction.fish}<br>
     <strong>Ore:</strong> ${totalProduction.ore}<br>
-    <strong>Crop:</strong> ${totalProduction.crop}<br>
+    <strong>Crop:</strong> ${totalProduction.crops}<br>
 
     <br>
 
@@ -934,7 +246,7 @@ function updateCards() {
     <strong>Wood:</strong> ${totalCosts.wood}<br>
     <strong>Fish:</strong> ${totalCosts.fish}<br>
     <strong>Ore:</strong> ${totalCosts.ore}<br>
-    <strong>Crop:</strong> ${totalCosts.crop}<br>
+    <strong>Crop:</strong> ${totalCosts.crops}<br>
 
     <br>
 
@@ -943,7 +255,7 @@ function updateCards() {
     <strong>Wood:</strong> ${totalProfit.wood}<br>
     <strong>Fish:</strong> ${totalProfit.fish}<br>
     <strong>Ore:</strong> ${totalProfit.ore}<br>
-    <strong>Crop:</strong> ${totalProfit.crop}<br>
+    <strong>Crop:</strong> ${totalProfit.crops}<br>
   `);
 
   const terrs = Object.keys(currentTerrs).filter(terrName => currentTerrs[terrName].selected == "selected");
@@ -964,13 +276,15 @@ function updateJSON(terrs, upgrades) {
     currentTerrs[terr].upgrades.efficientEmeralds = upgrades.efficientEmeralds;
     currentTerrs[terr].upgrades.emeraldRate = upgrades.emeraldRate;
 
-    currentTerrs[terr].productions[currentTerrs[terr].type] = ((currentTerrs[terr].baseResources / 900) * (1 + (resourceAmtUpgrades[upgrades.efficientResources] / 100)) * (60 * (60 / resourceTimes[upgrades.resourceRate])));
+    currentTerrs[terr].type.forEach(type => {
+      currentTerrs[terr].productions[type] = ((currentTerrs[terr].baseResources / 900) * (1 + (resourceAmtUpgrades[upgrades.efficientResources] / 100)) * (60 * (60 / resourceTimes[upgrades.resourceRate])));
+    });
     currentTerrs[terr].productions.emeralds = (10 * (1 + (emeraldsAmtUpgrades[upgrades.efficientEmeralds] / 100)) * (60 * (60 / emeraldsTimes[upgrades.emeraldRate])));
 
     currentTerrs[terr].costs.emeralds = resourceAmtUpgradesCosts[resourceAmtUpgrades.indexOf(resourceAmtUpgrades[currentTerrs[terr].upgrades.efficientResources])];
     currentTerrs[terr].costs.emeralds += resourceTimesCosts[resourceTimes.indexOf(resourceTimes[currentTerrs[terr].upgrades.resourceRate])];
     currentTerrs[terr].costs.ore = emeraldsAmtUpgradesCosts[emeraldsAmtUpgrades.indexOf(emeraldsAmtUpgrades[currentTerrs[terr].upgrades.efficientEmeralds])];
-    currentTerrs[terr].costs.crop = emeraldsTimesCosts[emeraldsTimes.indexOf(emeraldsTimes[currentTerrs[terr].upgrades.emeraldRate])];
+    currentTerrs[terr].costs.crops = emeraldsTimesCosts[emeraldsTimes.indexOf(emeraldsTimes[currentTerrs[terr].upgrades.emeraldRate])];
   });
 
   updateCards();

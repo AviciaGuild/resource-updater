@@ -3,6 +3,10 @@
   height: 500px;
 }
 
+.terrContainer {
+  padding: 0px !important;
+}
+
 .terr {
   background-color: #a6cfff;
   border-radius: 2rem;
@@ -30,8 +34,14 @@
 .arrowText {
   border: 1px solid gray;
   padding: 5px !important;
-  display: inline !important;
-  font-size: 13px;
+  display: inline-block !important;
+  font-size: 12px;
+  width: 69% !important;
+}
+
+.upgradeBox {
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 th, td {

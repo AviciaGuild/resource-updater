@@ -7,7 +7,7 @@ $("#efficientEmeraldsUp").click(modifyUpgrade);
 $("#emeraldRateDown").click(modifyUpgrade);
 $("#emeraldRateUp").click(modifyUpgrade);
 
-const currentTerrNames = ["Kandon Farm", "Old Coal Mine", "Kandon Ridge", "Path to Ahmsord Upper", "Path to Ahmsord Lower", "Sky Castle", "Dragonling Nests", "Snail Island", "Temple Island", "Ahmsord", "Astraulus' Tower", "Swamp Island", "Ahmsord Outskirts", "Central Islands", "Sky Island Ascent", "Jofash Tunnel", "Jofash Docks", "Molten Reach", "Wybel Island", "Angel Refuge", "Sky Falls", "Frozen Fort", "Raider's Base Upper", "Raider's Base Lower"];
+const currentTerrNames = ["Kandon Farm", "Old Coal Mine", "Kandon Ridge", "Path to Ahmsord Upper", "Path to Ahmsord Lower", "Sky Castle", "Dragonling Nests", "Snail Island", "Temple Island", "Ahmsord", "Astraulus' Tower", "Swamp Island", "Ahmsord Outskirts", "Central Islands", "Sky Island Ascent", "Jofash Tunnel", "Jofash Docks", "Molten Reach", "Wybel Island", "Angel Refuge", "Sky Falls", "Frozen Fort", "Raider's Base Upper", "Raider's Base Lower", "Molten Heights Portal", "Crater Descent", "Rodoroc", "Lava Lake Bridge", "Lava Lake", "Active Volcano", "Volcanic Slope", "Entrance to Rodoroc", "Eltom"];
 const currentTerrs = {};
 
 const upgradesJSON = {
@@ -262,8 +262,8 @@ function updateMap() {
 
   $.get("https://www.avicia.tk/map/territories.json", function (terrData) {
     Object.keys(currentTerrs).forEach(terr => {
-      let currentTerrData = terrData.find(e => e.name == terr);
-      let bounds = [[currentTerrData.start.split(",")[1], currentTerrData.start.split(",")[0]], [currentTerrData.end.split(",")[1], currentTerrData.end.split(",")[0]]];
+      let currentTerrData = terrData.territories[terr];
+      let bounds = [[currentTerrData.location.startY, currentTerrData.location.startX], [currentTerrData.location.endY, currentTerrData.location.endX]];
 
       bounds[0][0] = 7 - ((bounds[0][0] - minY) * 7 / yRange);
       bounds[0][1] = (bounds[0][1] - minX) * 7 / xRange;

@@ -7,8 +7,8 @@ $("#efficientEmeraldsUp").click(modifyUpgrade);
 $("#emeraldRateDown").click(modifyUpgrade);
 $("#emeraldRateUp").click(modifyUpgrade);
 
-const currentTerrNames = ["Kandon Farm", "Old Coal Mine", "Kandon Ridge", "Path to Ahmsord Upper", "Path to Ahmsord Lower", "Sky Castle", "Dragonling Nests", "Snail Island", "Temple Island", "Ahmsord", "Astraulus' Tower", "Swamp Island", "Ahmsord Outskirts", "Central Islands", "Sky Island Ascent", "Jofash Tunnel", "Jofash Docks", "Molten Reach", "Wybel Island", "Angel Refuge", "Sky Falls", "Frozen Fort", "Raider's Base Upper", "Raider's Base Lower", "Molten Heights Portal", "Crater Descent", "Rodoroc", "Lava Lake Bridge", "Lava Lake", "Active Volcano", "Volcanic Slope", "Entrance to Rodoroc", "Eltom"];
-const currentTerrs = {};
+let currentTerrNames = ["Kandon Farm", "Old Coal Mine", "Kandon Ridge", "Path to Ahmsord Upper", "Path to Ahmsord Lower", "Sky Castle", "Dragonling Nests", "Snail Island", "Temple Island", "Ahmsord", "Astraulus' Tower", "Swamp Island", "Ahmsord Outskirts", "Central Islands", "Sky Island Ascent", "Jofash Tunnel", "Jofash Docks", "Molten Reach", "Wybel Island", "Angel Refuge", "Sky Falls", "Frozen Fort", "Raider's Base Upper", "Raider's Base Lower", "Molten Heights Portal", "Crater Descent", "Rodoroc", "Lava Lake Bridge", "Lava Lake", "Active Volcano", "Volcanic Slope", "Entrance to Rodoroc", "Eltom"];
+let currentTerrs = {};
 
 const upgradesJSON = {
   "efficientResources": {
@@ -182,9 +182,11 @@ const upgradesJSON = {
 }
 
 updateCurrentTerrs();
+updateMap();
 
 function updateCurrentTerrs() {
   $.get("https://www.avicia.tk/map/terralldata.json", function (terrData) {
+    currentTerrs = {};
     currentTerrNames.forEach(terr => {
       const resources = Object.keys(terrData[terr].resources).filter(resourceType => terrData[terr].resources[resourceType] != 0 && resourceType != "emeralds");
       const value = {
@@ -236,7 +238,6 @@ function updateCurrentTerrs() {
     updateTerrOutputs(Object.keys(currentTerrs));
     updateCards();
 
-    updateMap();
     updateUpgrades();
   });
 }
@@ -440,7 +441,7 @@ function updateUpgrades() {
   $(".upgrades").empty();
   Object.entries(upgradesJSON).forEach(([upgradeName, upgradeData]) => {
     $(".upgrades").append(`
-    <div class="col-3 upgradeBox">
+    <div class="col-4 upgradeBox">
       <button class="modifyUpgrade btn btn-warning" id="${upgradeName}D" onclick="modifyUpgrade(this.id)">-</button>
       <div class="arrowText" id="${upgradeName}">${upgradeData.displayName}: ${upgradeData.upgrades[upgradeData.current]}${upgradeData.type} (${upgradeData.current})</div>
       <button class="modifyUpgrade btn btn-warning" id="${upgradeName}U" onclick="modifyUpgrade(this.id)">+</button>
@@ -492,6 +493,7 @@ function terrOnClick(terrName) {
 
   updateCards();
 }
+
 function modifyUpgrade(id) {
   const upgradeType = id.slice(0, -1);
 
@@ -511,3 +513,20 @@ function modifyUpgrade(id) {
   const terrs = Object.keys(currentTerrs).filter(terrName => currentTerrs[terrName].selected == "selected");
   updateTerrOutputs(terrs);
 }
+
+$("#applyChanges").on("click", function () {
+  const file = document.getElementById("importMap").files[0];
+
+  const reader = new FileReader();
+  reader.onload = function (file) {
+    const mapJSON = JSON.parse(file.target.result);
+    currentTerrNames = Object.keys(mapJSON.territories).filter(terrName => mapJSON.territories[terrName] == "AVO");
+    updateCurrentTerrs();
+  }
+  reader.readAsText(file);
+});
+
+$("#resetToDefaults").on("click", function() {
+  currentTerrNames = ["Kandon Farm", "Old Coal Mine", "Kandon Ridge", "Path to Ahmsord Upper", "Path to Ahmsord Lower", "Sky Castle", "Dragonling Nests", "Snail Island", "Temple Island", "Ahmsord", "Astraulus' Tower", "Swamp Island", "Ahmsord Outskirts", "Central Islands", "Sky Island Ascent", "Jofash Tunnel", "Jofash Docks", "Molten Reach", "Wybel Island", "Angel Refuge", "Sky Falls", "Frozen Fort", "Raider's Base Upper", "Raider's Base Lower", "Molten Heights Portal", "Crater Descent", "Rodoroc", "Lava Lake Bridge", "Lava Lake", "Active Volcano", "Volcanic Slope", "Entrance to Rodoroc", "Eltom"];
+  updateCurrentTerrs();
+});

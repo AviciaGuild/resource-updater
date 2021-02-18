@@ -32,8 +32,19 @@
     <br><br>
 
     <div class="row">
+      <div class="col">
+        <h4>Import map file</h4>
+        <input id="importMap" type="file" accept="application/JSON"/> 
+        <br>
+        <button class="btn btn-primary" id="applyChanges" style="margin-top: 5px;">Import Map</button>
+        <br>
+        <button class="btn btn-primary" id="resetToDefaults" style="margin-top: 5px;">Reset Territories to Defaults</button>
+      </div>
+    </div>
+
+    <div class="row">
       <div class="col text-center">
-        <h1>Terrs being Modified (separate by comma)</h1>
+        <h1>Terrs being Modified</h1>
         <h4 id="terrsBeingModified">None</h4>
 
         <div class="row upgrades">

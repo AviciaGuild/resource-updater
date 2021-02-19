@@ -12,81 +12,93 @@
 </head>
 
 <body>
-  <div class="container">
+  <div class="container-fluid" style="padding-left: 50px;">
     <div class="row">
-      <div class="col text-center">
-        <h1>Wynncraft Resource Simulation</h1>
-      </div>
-    </div>
+      <div class="col-9">
+        <div class="row">
+          <div class="col">
+            <div id="map"></div>
+          </div>
+        </div>
 
-    <div class="row">
-      <div class="col">
-        <div id="map"></div>
-      </div>
-    </div>
+        <br><br>
 
-    <div class="row">
-      <div class="col totalProduction"></div>
-    </div>
+        <div class="row">
+          <div class="col text-center">
+            <h1>Terrs being Modified</h1>
+            <h4 id="terrsBeingModified">None</h4>
 
-    <br><br>
+            <div class="row upgrades">
+              Gets filled in dynamically
+            </div>
+          </div>
+        </div>
 
-    <div class="row">
-      <div class="col">
-        <h4>Import map file</h4>
-        <input id="importMap" type="file" accept="application/JSON"/> 
         <br>
-        <button class="btn btn-primary" id="applyChanges" style="margin-top: 5px;">Import Map</button>
-        <br>
-        <button class="btn btn-primary" id="resetToDefaults" style="margin-top: 5px;">Reset Territories to Defaults</button>
-      </div>
-    </div>
 
-    <div class="row">
-      <div class="col text-center">
-        <h1>Terrs being Modified</h1>
-        <h4 id="terrsBeingModified">None</h4>
+        <div class="row">
+          <div class="col">
+            <div class="row terrs"></div>
+          </div>
+        </div>
 
-        <div class="row upgrades">
-          Gets filled in dynamically
+        <div class="row">
+          <div class="col">
+            <div class="trading form-horizontal">
+              <h3>Trading:</h3>
+              <h4>Resources being sent</h4>
+              <input type="number" min=0 class="form-control tradeInput" id="tradeemeraldsSent"
+                placeholder="Emeralds being sent through trade" onkeyup="updateCards()" />
+              <input type="number" min=0 class="form-control tradeInput" id="tradewoodSent"
+                placeholder="Wood being sent through trade" onkeyup="updateCards()" />
+              <input type="number" min=0 class="form-control tradeInput" id="tradefishSent"
+                placeholder="Fish being sent through trade" onkeyup="updateCards()" />
+              <input type="number" min=0 class="form-control tradeInput" id="tradeoreSent"
+                placeholder="Ore being sent through trade" onkeyup="updateCards()" />
+              <input type="number" min=0 class="form-control tradeInput" id="tradecropsSent"
+                placeholder="Crops being sent through trade" onkeyup="updateCards()" />
+              <h4>Resources being received</h4>
+              <input type="number" min=0 class="form-control tradeInput" id="tradeemeraldsReceived"
+                placeholder="Emeralds being received through trade" onkeyup="updateCards()" />
+              <input type="number" min=0 class="form-control tradeInput" id="tradewoodReceived"
+                placeholder="Wood being received through trade" onkeyup="updateCards()" />
+              <input type="number" min=0 class="form-control tradeInput" id="tradefishReceived"
+                placeholder="Fish being received through trade" onkeyup="updateCards()" />
+              <input type="number" min=0 class="form-control tradeInput" id="tradeoreReceived"
+                placeholder="Ore being received through trade" onkeyup="updateCards()" />
+              <input type="number" min=0 class="form-control tradeInput" id="tradecropsReceived"
+                placeholder="Crops being received through trade" onkeyup="updateCards()" />
+            </div>
+          </div>
         </div>
       </div>
-    </div>
 
-    <br>
+      <div class="col-3" style="padding: 0px;">
+        <div class="rightStrip">
+          <h1 class="title">Wynncraft Resource Simulation</h1>
 
-    <div class="row">
-      <div class="col">
-        <div class="row terrs"></div>
-      </div>
-    </div>
+          <hr>
+          <div class="importRegion">
+            <h4>Import map file</h4>
+            <input id="importMap" type="file" accept="application/JSON" hidden="hidden" />
+            <button class="btn btn-primary" id="importMapButton" style="margin-top: 5px;">Import Map</button>
+            <br>
+            <button class="btn btn-primary" id="resetToDefaults" style="margin-top: 5px;">Reset Territories to
+              Defaults</button>
+          </div>
 
-    <div class="row">
-      <div class="col">
-        <div class="trading form-horizontal">
-          <h3>Trading:</h3>
-          <h4>Resources being sent</h4>
-          <input type="number" min=0 class="form-control tradeInput" id="tradeemeraldsSent"
-            placeholder="Emeralds being sent through trade" onkeyup="updateCards()"/>
-          <input type="number" min=0 class="form-control tradeInput" id="tradewoodSent"
-            placeholder="Wood being sent through trade" onkeyup="updateCards()"/>
-          <input type="number" min=0 class="form-control tradeInput" id="tradefishSent"
-            placeholder="Fish being sent through trade" onkeyup="updateCards()"/>
-          <input type="number" min=0 class="form-control tradeInput" id="tradeoreSent"
-            placeholder="Ore being sent through trade" onkeyup="updateCards()"/>
-          <input type="number" min=0 class="form-control tradeInput" id="tradecropsSent"
-            placeholder="Crops being sent through trade" onkeyup="updateCards()"/>
-          <h4>Resources being received</h4>
-          <input type="number" min=0 class="form-control tradeInput" id="tradeemeraldsReceived"
-            placeholder="Emeralds being received through trade" onkeyup="updateCards()"/>
-          <input type="number" min=0 class="form-control tradeInput" id="tradewoodReceived"
-            placeholder="Wood being received through trade" onkeyup="updateCards()"/>
-          <input type="number" min=0 class="form-control tradeInput" id="tradefishReceived"
-            placeholder="Fish being received through trade" onkeyup="updateCards()"/>
-          <input type="number" min=0 class="form-control tradeInput" id="tradeoreReceived"
-            placeholder="Ore being received through trade" onkeyup="updateCards()"/>
-          <input type="number" min=0 class="form-control tradeInput" id="tradecropsReceived"
-            placeholder="Crops being received through trade" onkeyup="updateCards()"/>
+          <hr>
+          <div class="selections">
+            <h4>Selections</h4>
+            <input id="importUpgrades" type="file" accept="application/JSON" hidden="hidden" />
+            <button class="btn btn-primary" id="importUpgradesButton" style="margin-top: 5px;">Import Upgrades</button>
+            <button class="btn btn-primary" id="exportUpgradesButton" style="margin-top: 5px;">Export Upgrades</button><br>
+            <button class="btn btn-primary" id="deselectAll" style="margin-top: 5px;">Remove all selections</button><br>
+            <button class="btn btn-primary" id="resetUpgrades" style="margin-top: 5px;">Reset all upgrades</button>
+          </div>
+
+          <hr>
+          <div class="totalProduction"></div>
         </div>
       </div>
     </div>

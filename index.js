@@ -235,6 +235,10 @@ function updateCurrentTerrs() {
       currentTerrs[terr] = value;
     });
 
+    Object.values(upgradesJSON).forEach(upgradeData => {
+      upgradeData.current = 0;
+    });
+
     updateTerrOutputs(Object.keys(currentTerrs));
     updateCards();
 
@@ -514,7 +518,11 @@ function modifyUpgrade(id) {
   updateTerrOutputs(terrs);
 }
 
-$("#applyChanges").on("click", function () {
+$("#importMapButton").on("click", function () {
+  $("#importMap").click();
+});
+
+$("#importMap").on("change", function () {
   const file = document.getElementById("importMap").files[0];
 
   const reader = new FileReader();
@@ -524,9 +532,80 @@ $("#applyChanges").on("click", function () {
     updateCurrentTerrs();
   }
   reader.readAsText(file);
+
+  document.getElementById("importMap").value = "";
 });
 
-$("#resetToDefaults").on("click", function() {
+$("#importUpgradesButton").on("click", function () {
+  $("#importUpgrades").click();
+});
+
+$("#importUpgrades").on("change", function () {
+  const file = document.getElementById("importUpgrades").files[0];
+
+  const reader = new FileReader();
+  reader.onload = function (file) {
+    const importedData = JSON.parse(file.target.result);
+    Object.entries(importedData).forEach(([terrName, terrData]) => {
+      if (currentTerrs[terrName] != undefined) {
+        terrData.popup = currentTerrs[terrName].popup;
+      }
+      terrData.selected = "unselected";
+    });
+    currentTerrs = Object.assign({}, importedData);
+    currentTerrNames = Object.keys(currentTerrs);
+
+    Object.values(upgradesJSON).forEach(upgradeData => {
+      upgradeData.current = 0;
+    });
+
+    updateCards();
+    updateUpgrades();
+  }
+  reader.readAsText(file);
+
+  document.getElementById("importUpgrades").value = "";
+});
+
+$("#exportUpgradesButton").on("click", function () {
+  const dataToExport = {};
+  Object.assign(dataToExport, currentTerrs);
+
+  Object.values(dataToExport).forEach(terrData => {
+    delete terrData.popup;
+  });
+
+  const aElement = document.createElement("a");
+  const fileToDownload = new Blob([JSON.stringify(dataToExport)], { type: 'application/json' });
+  aElement.href = URL.createObjectURL(fileToDownload);
+  aElement.download = 'upgrades.json';
+  aElement.click();
+});
+
+$("#resetToDefaults").on("click", function () {
   currentTerrNames = ["Kandon Farm", "Old Coal Mine", "Kandon Ridge", "Path to Ahmsord Upper", "Path to Ahmsord Lower", "Sky Castle", "Dragonling Nests", "Snail Island", "Temple Island", "Ahmsord", "Astraulus' Tower", "Swamp Island", "Ahmsord Outskirts", "Central Islands", "Sky Island Ascent", "Jofash Tunnel", "Jofash Docks", "Molten Reach", "Wybel Island", "Angel Refuge", "Sky Falls", "Frozen Fort", "Raider's Base Upper", "Raider's Base Lower", "Molten Heights Portal", "Crater Descent", "Rodoroc", "Lava Lake Bridge", "Lava Lake", "Active Volcano", "Volcanic Slope", "Entrance to Rodoroc", "Eltom"];
+  updateCurrentTerrs();
+});
+
+$("#deselectAll").on("click", function () {
+  Object.values(currentTerrs).forEach(currentTerrValue => {
+    currentTerrValue.selected = "unselected";
+  });
+
+  const selectedTerrs = Object.keys(currentTerrs).filter(terrName => currentTerrs[terrName].selected == "selected");
+  if (selectedTerrs.length == 0) {
+    Object.values(upgradesJSON).forEach(upgradeData => upgradeData.current = 0);
+    updateUpgrades();
+  }
+  else if (selectedTerrs.length == 1) {
+    Object.entries(currentTerrs[selectedTerrs[0]].upgrades).forEach(([upgradeType, upgradeAmount]) => {
+      upgradesJSON[upgradeType].current = upgradeAmount;
+    });
+    updateUpgrades();
+  }
+  updateCards();
+});
+
+$("#resetUpgrades").on("click", function () {
   updateCurrentTerrs();
 });

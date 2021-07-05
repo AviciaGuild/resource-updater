@@ -31,6 +31,12 @@
             <div class="row upgrades">
               Gets filled in dynamically
             </div>
+
+            <div class="treasuryOptions">
+              <label for="treasuryBonus">Treasury Bonus: </label>
+              <input type="number" id="treasuryBonus" placeholder="Treasury Bonus" />
+              <button class="btn btn-warning" id="treasuryBonusConfirm">Set</button>
+            </div>
           </div>
         </div>
 
@@ -92,8 +98,9 @@
             <h4>Selections</h4>
             <input id="importUpgrades" type="file" accept="application/JSON" hidden="hidden" />
             <button class="btn btn-primary" id="importUpgradesButton" style="margin-top: 5px;">Import Upgrades</button>
-            <button class="btn btn-primary" id="exportUpgradesButton" style="margin-top: 5px;">Export Upgrades</button><br>
-            <button class="btn btn-primary" id="deselectAll" style="margin-top: 5px;">Remove all selections</button><br>
+            <button class="btn btn-primary" id="exportUpgradesButton" style="margin-top: 5px;">Export
+              Upgrades</button><br>
+            <button class="btn btn-primary" id="deselectAll" style="margin-top: 5px;">Remove all selections</button>
             <button class="btn btn-primary" id="resetUpgrades" style="margin-top: 5px;">Reset all upgrades</button>
           </div>
 

@@ -6,6 +6,7 @@ $("#efficientEmeraldsDown").click(modifyUpgrade);
 $("#efficientEmeraldsUp").click(modifyUpgrade);
 $("#emeraldRateDown").click(modifyUpgrade);
 $("#emeraldRateUp").click(modifyUpgrade);
+$("#treasuryBonusConfirm").click(updateTreasuryBonus);
 
 let currentTerrNames = ["Kandon Farm", "Old Coal Mine", "Kandon Ridge", "Path to Ahmsord Upper", "Path to Ahmsord Lower", "Sky Castle", "Dragonling Nests", "Snail Island", "Temple Island", "Ahmsord", "Astraulus' Tower", "Swamp Island", "Ahmsord Outskirts", "Central Islands", "Sky Island Ascent", "Jofash Tunnel", "Jofash Docks", "Molten Reach", "Wybel Island", "Angel Refuge", "Sky Falls", "Frozen Fort", "Raider's Base Upper", "Raider's Base Lower", "Molten Heights Portal", "Crater Descent", "Rodoroc", "Lava Lake Bridge", "Lava Lake", "Active Volcano", "Volcanic Slope", "Entrance to Rodoroc", "Eltom", "Dead Island North East"];
 let currentTerrs = {};
@@ -176,8 +177,8 @@ const upgradesJSON = {
     "displayName": "Emerald Seeking",
     "resource": "fish",
     "type": "%/h",
-    "upgrades": [0, 0.3, 3, 6],
-    "costs": [0, 200, 800, 1600]
+    "upgrades": [0, 0.3, 3, 6, 12, 24],
+    "costs": [0, 200, 800, 1600, 3200, 6400]
   }
 }
 
@@ -228,8 +229,9 @@ function updateCurrentTerrs() {
           "emeraldStorage": 0,
           "xpSeeking": 0,
           "tomeSeeking": 0,
-          "emeraldSeeking": 0,
-        }
+          "emeraldSeeking": 0
+        },
+        "treasuryBonus": 0
       };
 
       currentTerrs[terr] = value;
@@ -462,9 +464,9 @@ function updateTerrOutputs(terrs) {
     });
 
     currentTerrs[terr].type.forEach(type => {
-      currentTerrs[terr].productions[type] = ((currentTerrs[terr].baseResources / 900) * (1 + (upgradesJSON.efficientResources.upgrades[upgradesJSON.efficientResources.current] / 100)) * (60 * (60 / upgradesJSON.resourceRate.upgrades[upgradesJSON.resourceRate.current])));
+      currentTerrs[terr].productions[type] = ((currentTerrs[terr].baseResources / 900) * (1 + (upgradesJSON.efficientResources.upgrades[upgradesJSON.efficientResources.current] / 100)) * (60 * (60 / upgradesJSON.resourceRate.upgrades[upgradesJSON.resourceRate.current]))) * (1 + (currentTerrs[terr].treasuryBonus) / 100);
     });
-    currentTerrs[terr].productions.emeralds = ((currentTerrs[terr].baseEmeralds / 900) * (1 + (upgradesJSON.efficientEmeralds.upgrades[upgradesJSON.efficientEmeralds.current] / 100)) * (60 * (60 / upgradesJSON.emeraldRate.upgrades[upgradesJSON.emeraldRate.current])));
+    currentTerrs[terr].productions.emeralds = ((currentTerrs[terr].baseEmeralds / 900) * (1 + (upgradesJSON.efficientEmeralds.upgrades[upgradesJSON.efficientEmeralds.current] / 100)) * (60 * (60 / upgradesJSON.emeraldRate.upgrades[upgradesJSON.emeraldRate.current]))) * (1 + (currentTerrs[terr].treasuryBonus) / 100);
 
     currentTerrs[terr].costs = { "emeralds": 0, "wood": 0, "fish": 0, "ore": 0, "crops": 0 };
     Object.entries(upgradesJSON).forEach(([upgradeType, upgradeData]) => {
@@ -516,6 +518,20 @@ function modifyUpgrade(id) {
 
   const terrs = Object.keys(currentTerrs).filter(terrName => currentTerrs[terrName].selected == "selected");
   updateTerrOutputs(terrs);
+}
+
+function updateTreasuryBonus() {
+  const treasuryBonusValue = parseInt($("#treasuryBonus").val());
+  const changedTerrs = [];
+
+  Object.entries(currentTerrs).forEach(([terr, terrData]) => {
+    if (terrData.selected == "selected") {
+      terrData.treasuryBonus = treasuryBonusValue;
+      changedTerrs.push(terr);
+    }
+  });
+
+  updateTerrOutputs(changedTerrs);
 }
 
 $("#importMapButton").on("click", function () {

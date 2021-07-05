@@ -521,8 +521,12 @@ function modifyUpgrade(id) {
 }
 
 function updateTreasuryBonus() {
-  const treasuryBonusValue = parseInt($("#treasuryBonus").val());
+  let treasuryBonusValue = parseInt($("#treasuryBonus").val());
   const changedTerrs = [];
+
+  if (isNaN(treasuryBonusValue)) {
+    treasuryBonusValue = 0;
+  }
 
   Object.entries(currentTerrs).forEach(([terr, terrData]) => {
     if (terrData.selected == "selected") {

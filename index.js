@@ -7,7 +7,7 @@ $("#efficientEmeraldsUp").click(modifyUpgrade);
 $("#emeraldRateDown").click(modifyUpgrade);
 $("#emeraldRateUp").click(modifyUpgrade);
 
-let currentTerrNames = ["Kandon Farm", "Old Coal Mine", "Kandon Ridge", "Path to Ahmsord Upper", "Path to Ahmsord Lower", "Sky Castle", "Dragonling Nests", "Snail Island", "Temple Island", "Ahmsord", "Astraulus' Tower", "Swamp Island", "Ahmsord Outskirts", "Central Islands", "Sky Island Ascent", "Jofash Tunnel", "Jofash Docks", "Molten Reach", "Wybel Island", "Angel Refuge", "Sky Falls", "Frozen Fort", "Raider's Base Upper", "Raider's Base Lower", "Molten Heights Portal", "Crater Descent", "Rodoroc", "Lava Lake Bridge", "Lava Lake", "Active Volcano", "Volcanic Slope", "Entrance to Rodoroc", "Eltom"];
+let currentTerrNames = ["Kandon Farm", "Old Coal Mine", "Kandon Ridge", "Path to Ahmsord Upper", "Path to Ahmsord Lower", "Sky Castle", "Dragonling Nests", "Snail Island", "Temple Island", "Ahmsord", "Astraulus' Tower", "Swamp Island", "Ahmsord Outskirts", "Central Islands", "Sky Island Ascent", "Jofash Tunnel", "Jofash Docks", "Molten Reach", "Wybel Island", "Angel Refuge", "Sky Falls", "Frozen Fort", "Raider's Base Upper", "Raider's Base Lower", "Molten Heights Portal", "Crater Descent", "Rodoroc", "Lava Lake Bridge", "Lava Lake", "Active Volcano", "Volcanic Slope", "Entrance to Rodoroc", "Eltom", "Dead Island North East"];
 let currentTerrs = {};
 
 const upgradesJSON = {
@@ -49,7 +49,7 @@ const upgradesJSON = {
     "resource": "ore",
     "type": "%",
     "upgrades": [0, 40, 80, 120, 160, 200, 240, 280, 320, 360, 400, 440],
-    "costs": [0, 200, 800, 1600, 3200, 4800, 6400, 9600, 12800, 160000, 22400, 35200]
+    "costs": [0, 100, 300, 600, 1200, 2400, 4800, 8400, 12000, 14600, 17200, 19800]
   },
   "towerAttack": {
     "current": 0,
@@ -57,7 +57,7 @@ const upgradesJSON = {
     "resource": "crops",
     "type": "%",
     "upgrades": [0, 50, 100, 150, 220, 300, 400, 500, 620, 660, 740, 840],
-    "costs": [0, 200, 800, 1600, 3200, 4800, 6400, 9600, 12800, 16000, 22400, 35200]
+    "costs": [0, 100, 300, 600, 1200, 2400, 4800, 8400, 12000, 14600, 17200, 19800]
   },
   "towerHealth": {
     "current": 0,
@@ -65,7 +65,7 @@ const upgradesJSON = {
     "resource": "wood",
     "type": "%",
     "upgrades": [0, 50, 100, 150, 220, 300, 400, 500, 620, 660, 740, 840],
-    "costs": [0, 200, 800, 1600, 3200, 4800, 6400, 9600, 12800, 16000, 22400, 35200]
+    "costs": [0, 100, 300, 600, 1200, 2400, 4800, 8400, 12000, 14600, 17200, 19800]
   },
   "towerDefense": {
     "current": 0,
@@ -73,7 +73,7 @@ const upgradesJSON = {
     "resource": "fish",
     "type": "%",
     "upgrades": [0, 300, 450, 525, 580, 620, 645, 665, 680, 695, 710, 720],
-    "costs": [0, 200, 800, 1600, 3200, 4800, 6400, 9600, 12800, 16000, 22400, 35200]
+    "costs": [0, 100, 300, 600, 1200, 2400, 4800, 8400, 12000, 14600, 17200, 19800]
   },
   "towerMinions": {
     "current": 0,
@@ -113,7 +113,7 @@ const upgradesJSON = {
     "resource": "wood",
     "type": "%",
     "upgrades": [0, 20, 40, 60, 80, 100, 120, 150, 180],
-    "costs": [0, 600, 1200, 1800, 2400, 3000, 5000, 10000, 20000]
+    "costs": [0, 600, 1300, 2000, 2700, 3400, 5500, 10000, 20000]
   },
   "mobExp": {
     "current": 0,
@@ -144,32 +144,32 @@ const upgradesJSON = {
     "displayName": "Resource Storage",
     "resource": "emeralds",
     "type": "%",
-    "upgrades": [0, 100, 300, 1000, 9000, 27000, 81000, 162000, 324000, 648000],
-    "costs": [0, 400, 800, 2000, 5000, 15000, 45000, 135000, 405000, 1215000, 3645000]
+    "upgrades": [0, 100, 300, 700, 1400, 3300, 7900],
+    "costs": [0, 400, 800, 2000, 5000, 16000, 48000]
   },
   "emeraldStorage": {
     "current": 0,
     "displayName": "Emerald Storage",
     "resource": "wood",
     "type": "%",
-    "upgrades": [0, 100, 300, 1000, 3000, 9000, 27000, 81000, 162000, 324000, 648000],
-    "costs": [0, 200, 400, 1000, 2500, 6250, 15600, 39000, 97500, 244000, 610000]
+    "upgrades": [0, 100, 300, 700, 1400, 3300, 7900],
+    "costs": [0, 200, 400, 1000, 2500, 8000, 24000]
   },
   "xpSeeking": {
     "current": 0,
     "displayName": "XP Seeking",
     "resource": "emeralds",
     "type": "/h",
-    "upgrades": [0, 300, 3000, 6000],
-    "costs": [0, 600, 3600, 7200]
+    "upgrades": [0, 36000, 66000, 120000, 228000, 456000, 900000, 1740000, 2580000, 3360000],
+    "costs": [0, 100, 200, 400, 800, 1600, 3200, 6400, 9600, 12800]
   },
   "tomeSeeking": {
     "current": 0,
     "displayName": "Tome Seeking",
     "resource": "fish",
     "type": "%/h",
-    "upgrades": [0, 0.06, 0.6, 1.2],
-    "costs": [0, 800, 4800, 12800]
+    "upgrades": [0, 0.15, 1.2, 2.4],
+    "costs": [0, 400, 3200, 6400]
   },
   "emeraldSeeking": {
     "current": 0,
@@ -177,7 +177,7 @@ const upgradesJSON = {
     "resource": "fish",
     "type": "%/h",
     "upgrades": [0, 0.3, 3, 6],
-    "costs": [0, 800, 4800, 12800]
+    "costs": [0, 200, 800, 1600]
   }
 }
 

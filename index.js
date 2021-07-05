@@ -625,7 +625,3 @@ $("#deselectAll").on("click", function () {
   }
   updateCards();
 });
-
-$("#resetUpgrades").on("click", function () {
-  updateCurrentTerrs();
-});

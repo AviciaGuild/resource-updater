@@ -8,7 +8,7 @@ $("#emeraldRateDown").click(modifyUpgrade);
 $("#emeraldRateUp").click(modifyUpgrade);
 $("#treasuryBonusConfirm").click(updateTreasuryBonus);
 
-let currentTerrNames = ["Kandon Farm", "Old Coal Mine", "Kandon Ridge", "Path to Ahmsord Upper", "Path to Ahmsord Lower", "Sky Castle", "Dragonling Nests", "Snail Island", "Temple Island", "Ahmsord", "Astraulus' Tower", "Swamp Island", "Ahmsord Outskirts", "Central Islands", "Sky Island Ascent", "Jofash Tunnel", "Jofash Docks", "Molten Reach", "Wybel Island", "Angel Refuge", "Sky Falls", "Frozen Fort", "Raider's Base Upper", "Raider's Base Lower", "Molten Heights Portal", "Crater Descent", "Rodoroc", "Lava Lake Bridge", "Lava Lake", "Active Volcano", "Volcanic Slope", "Entrance to Rodoroc", "Eltom", "Dead Island North East"];
+let currentTerrNames = ["Efilim Village", "Efilim East Plains", "Light Forest North Entrance", "Light Forest South Exit", "Light Forest West Upper", "Light Forest East Mid", "Light Forest Canyon", "Lone Farmstead", "Twisted Housing", "Viscera Pits West", "Abandoned Manor", "Kander Mines", "Viscera Pits East", "Old Crossroads South", "Lexdale", "Decayed Basin", "Cinfras Entrance", "Fallen Village", "Guild Hall", "Gylia Lake South West", "Jitak's Farm", "Cinfras Outskirts", "Cinfras", "Efilim South Plains", "Light Forest North Exit", "Light Forest East Upper", "Gelibord", "Lexdales Prison", "Mesquis Tower", "Dark Forest Village", "Fungal Grove", "Mushroom Hill", "Gylia Lake North West", "Efilim South East Plains", "Path to Cinfras", "Mansion of Insanity", "Path to Talor", "Heart of Decay", "Twisted Ridge", "Old Crossroads North", "Entrance to Kander", "Dark Forest Cinfras Transition"];
 let currentTerrs = {};
 
 const upgradesJSON = {

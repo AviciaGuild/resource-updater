@@ -183,7 +183,7 @@ const upgradesJSON = {
 }
 
 updateCurrentTerrs();
-updateMap();
+updateRectangles();
 
 function updateCurrentTerrs() {
   $.get("https://www.avicia.tk/map/terralldata.json", function (terrData) {
@@ -225,6 +225,7 @@ function updateCurrentTerrs() {
           "gatheringExp": 0,
           "mobExp": 0,
           "mobDamage": 0,
+          "pvpDamage": 0,
           "resourceStorage": 0,
           "emeraldStorage": 0,
           "xpSeeking": 0,
@@ -245,47 +246,6 @@ function updateCurrentTerrs() {
     updateCards();
 
     updateUpgrades();
-  });
-}
-
-function updateMap() {
-  const map = L.map("map", {
-    crs: L.CRS.Simple,
-    minZoom: 6,
-    maxZoom: 10,
-    zoomControl: false,
-    zoom: 8
-  });
-
-  L.imageOverlay("map.png", [[0, 0], [7, 7]]).addTo(map);
-  map.fitBounds([[0, 0], [7, 7]]);
-
-  let minX = 550;
-  let maxX = 1620;
-  let xRange = Math.abs(maxX - minX);
-  let minY = -5675;
-  let maxY = -3820;
-  let yRange = Math.abs(maxY - minY);
-
-  $.get("https://www.avicia.tk/map/territories.json", function (terrData) {
-    Object.keys(currentTerrs).forEach(terr => {
-      let currentTerrData = terrData.territories[terr];
-      let bounds = [[currentTerrData.location.startY, currentTerrData.location.startX], [currentTerrData.location.endY, currentTerrData.location.endX]];
-
-      bounds[0][0] = 7 - ((bounds[0][0] - minY) * 7 / yRange);
-      bounds[0][1] = (bounds[0][1] - minX) * 7 / xRange;
-      bounds[1][0] = 7 - ((bounds[1][0] - minY) * 7 / yRange);
-      bounds[1][1] = (bounds[1][1] - minX) * 7 / xRange;
-
-      let rectangle = L.rectangle(bounds, { color: "#0058ff", weight: 2 })
-
-      rectangle.bindPopup(terr).openPopup();
-      currentTerrs[terr].popup = rectangle;
-
-      rectangle.addTo(map);
-    });
-
-    updateRectangles();
   });
 }
 
@@ -351,13 +311,13 @@ function updateCards() {
   let currentTerrsKeys = Object.keys(currentTerrs);
   currentTerrsKeys.sort();
 
-  Object.keys(totalCosts).forEach(resourceType => {
-    const sentValue = parseInt($(`#trade${resourceType}Sent`).val());
-    const receivedValue = parseInt($(`#trade${resourceType}Received`).val());
+  // Object.keys(totalCosts).forEach(resourceType => {
+  //   const sentValue = parseInt($(`#trade${resourceType}Sent`).val());
+  //   const receivedValue = parseInt($(`#trade${resourceType}Received`).val());
 
-    totalCosts[resourceType] = sentValue > 0 ? sentValue : 0;
-    totalProduction[resourceType] = receivedValue > 0 ? receivedValue : 0;
-  });
+  //   totalCosts[resourceType] = sentValue > 0 ? sentValue : 0;
+  //   totalProduction[resourceType] = receivedValue > 0 ? receivedValue : 0;
+  // });
 
   currentTerrsKeys.forEach(terrName => {
     const terrData = currentTerrs[terrName];
@@ -459,18 +419,16 @@ function updateUpgrades() {
 
 function updateTerrOutputs(terrs) {
   terrs.forEach(terr => {
-    Object.entries(upgradesJSON).forEach(([upgradeType, upgradeData]) => {
-      currentTerrs[terr].upgrades[upgradeType] = upgradeData.current;
-    });
+    const terrData = currentTerrs[terr];
 
     currentTerrs[terr].type.forEach(type => {
-      currentTerrs[terr].productions[type] = ((currentTerrs[terr].baseResources / 900) * (1 + (upgradesJSON.efficientResources.upgrades[upgradesJSON.efficientResources.current] / 100)) * (60 * (60 / upgradesJSON.resourceRate.upgrades[upgradesJSON.resourceRate.current]))) * (1 + (currentTerrs[terr].treasuryBonus) / 100);
+      currentTerrs[terr].productions[type] = ((currentTerrs[terr].baseResources / 900) * (1 + (upgradesJSON.efficientResources.upgrades[terrData.upgrades.efficientResources] / 100)) * (60 * (60 / upgradesJSON.resourceRate.upgrades[terrData.upgrades.resourceRate]))) * (1 + (currentTerrs[terr].treasuryBonus) / 100);
     });
-    currentTerrs[terr].productions.emeralds = ((currentTerrs[terr].baseEmeralds / 900) * (1 + (upgradesJSON.efficientEmeralds.upgrades[upgradesJSON.efficientEmeralds.current] / 100)) * (60 * (60 / upgradesJSON.emeraldRate.upgrades[upgradesJSON.emeraldRate.current]))) * (1 + (currentTerrs[terr].treasuryBonus) / 100);
+    currentTerrs[terr].productions.emeralds = ((currentTerrs[terr].baseEmeralds / 900) * (1 + (upgradesJSON.efficientEmeralds.upgrades[terrData.upgrades.efficientEmeralds] / 100)) * (60 * (60 / upgradesJSON.emeraldRate.upgrades[terrData.upgrades.emeraldRate]))) * (1 + (currentTerrs[terr].treasuryBonus) / 100);
 
     currentTerrs[terr].costs = { "emeralds": 0, "wood": 0, "fish": 0, "ore": 0, "crops": 0 };
     Object.entries(upgradesJSON).forEach(([upgradeType, upgradeData]) => {
-      currentTerrs[terr].costs[upgradeData.resource] += upgradeData.costs[upgradeData.current];
+      currentTerrs[terr].costs[upgradeData.resource] += upgradeData.costs[terrData.upgrades[upgradeType]];
     });
   });
 
@@ -502,6 +460,7 @@ function terrOnClick(terrName) {
 
 function modifyUpgrade(id) {
   const upgradeType = id.slice(0, -1);
+  const terrs = Object.keys(currentTerrs).filter(terrName => currentTerrs[terrName].selected == "selected");
 
   if (id.slice(-1) == "U") {
     if (upgradesJSON[upgradeType].current < upgradesJSON[upgradeType].upgrades.length - 1) {
@@ -516,7 +475,11 @@ function modifyUpgrade(id) {
     }
   }
 
-  const terrs = Object.keys(currentTerrs).filter(terrName => currentTerrs[terrName].selected == "selected");
+  terrs.forEach(terr => {
+    const terrData = currentTerrs[terr];
+    terrData.upgrades[upgradeType] = upgradesJSON[upgradeType].current;
+  });
+
   updateTerrOutputs(terrs);
 }
 

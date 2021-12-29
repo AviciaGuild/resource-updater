@@ -3,45 +3,135 @@
   font-weight: bold;
 }
 
+html, body {
+  height: 100%;
+}
+
+body {
+  background: black;
+  margin: 0;
+  padding: 0;
+}
+
+.outer {
+  width: 100%;
+  height: 100%;
+}
+
 #map {
-  margin-top: 20px !important;
-  height: 500px;
-  margin-left: 20px !important;
-  margin: auto;
-  border-radius: 2rem;
+  width: 80%;
+  height: 100%;
+  background: black;
+  z-index: 1;
 }
 
 .terrContainer {
   padding: 12px !important;
 }
-
-.terr {
-  background-color: #a6cfff;
-  border-radius: 2rem;
-  padding: 10px;
-  cursor: pointer;
-  height: 100%;
-}
-
-.selected {
-  background-color: #6db1ff !important;
-  border: 1px solid black;
-}
-
 .rightStrip {
-  background-color: #6db1ff;
+  background-color: rgb(50, 50, 50, 0.9);
   padding: 10px;
-  position: sticky;
+  position: absolute;
+  right: 0;
+  z-index: 2;
   top: 0%;
   height: 100vh;
   margin-left: 50px;
-  color: black;
-  opacity: 0.8;
+  color: white;
   overflow-y: auto;
+  width: 20%;
+  font-size: 20px;
 }
 
 #terrsToModify {
   margin: 20px;
+}
+
+.emeralds {
+  color: #55FF55
+}
+
+.ore {
+  color: #FFFFFF
+}
+
+.wood {
+  color: #FFAA00
+}
+
+.fish {
+  color: #55FFFF
+}
+
+.crops {
+  color: #FFFF55
+}
+
+.percentage {
+  color:rgb(200, 200, 200);
+}
+
+.overPercentage {
+  color: rgb(220, 80, 80);
+}
+
+.profitNum {
+  color: #557dff;
+}
+
+.terrStats {
+  padding: 10px;
+  background-color: rgb(30, 30, 30, 0.9);
+  border-radius: 5px;
+  border: 1px solid white;
+  color: white;
+  position: absolute;
+  top: 30%;
+  left: 5%;
+  z-index: 2;
+  text-align: center;
+  user-select: none;
+  display: none;
+}
+
+
+
+.upgrades {
+  padding: 10px;
+  background-color: #c4ab79;
+  position: absolute;
+  top: 5%;
+  left: 5%;
+  z-index: 2;
+  text-align: center;
+  user-select: none;
+}
+
+.upgrades img:hover {
+  z-index: 1;
+}
+
+.upgradeNumber {
+  color: white;
+  text-shadow: 1px 1px #000;
+  position: absolute;
+  top: 30%;
+  right: 0%;
+  font-size: 20px;
+  z-index: 0;
+  user-select: none;
+}
+
+.upgradeSlot {
+  display: inline-block;
+  position: relative;
+  z-index: 1;
+  user-select: none;
+}
+
+.upgradeSlot:hover {
+  background-color: #e2d5bc;
+  cursor: pointer;
 }
 
 .upgradeBox {
@@ -78,4 +168,18 @@ th, td {
 #updateTrade {
   margin: 5px;
   width: 100%;
+}
+
+.leaflet-tooltip.territoryName {
+  border: 0;
+  box-shadow: none;
+  background-color: transparent;
+  /* font-weight: 700; */
+  white-space: initial;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 13px !important;
+  text-align: center;
+  text-shadow: 1px 1px 0 #000, -1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, 0 0 2px #000;
+  color: white;
 }

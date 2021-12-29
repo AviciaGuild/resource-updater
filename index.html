@@ -6,11 +6,111 @@
   <link rel="stylesheet" href="index.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+    integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+    crossorigin="" />
 </head>
 
 <body>
-  <div class="container-fluid" style="padding-left: 50px;">
-    <div class="row">
+  <div class="outer">
+    <div id="map"></div>
+
+    <div class="upgrades">
+      <div class="basicUpgrades">
+        <div class="upgradeSlot">
+          <img src="resource_icons/damage.png" />
+          <p class="upgradeNumber" id="towerDamageNumber">0</p>
+        </div>
+        <div class="upgradeSlot">
+          <img src="resource_icons/attack.png" />
+          <p class="upgradeNumber" id="towerAttackNumber">0</p>
+        </div>
+        <div class="upgradeSlot">
+          <img src="resource_icons/health.png" />
+          <p class="upgradeNumber" id="towerHealthNumber">0</p>
+        </div>
+        <div class="upgradeSlot">
+          <img src="resource_icons/defense.png" />
+          <p class="upgradeNumber" id="towerDefenseNumber">0</p>
+        </div>
+      </div>
+
+      <div class="specialUpgrades">
+        <div class="upgradeSlot">
+          <img src="resource_icons/mobs.png" />
+          <p class="upgradeNumber" id="towerMinionsNumber">0</p>
+        </div>
+        <div class="upgradeSlot">
+          <img src="resource_icons/multi.png" />
+          <p class="upgradeNumber" id="towerMANumber">0</p>
+        </div>
+        <div class="upgradeSlot">
+          <img src="resource_icons/aura.png" />
+          <p class="upgradeNumber" id="towerAuraNumber">0</p>
+        </div>
+        <div class="upgradeSlot">
+          <img src="resource_icons/volley.png" />
+          <p class="upgradeNumber" id="towerVolleyNumber">0</p>
+        </div>
+      </div>
+
+      <div class="resourceUpgrades">
+        <div class="upgradeSlot">
+          <img src="resource_icons/resource_storage.png" />
+          <p class="upgradeNumber" id="resourceStorageNumber">0</p>
+        </div>
+        <div class="upgradeSlot">
+          <img src="resource_icons/emerald_storage.png" />
+          <p class="upgradeNumber" id="emeraldStorageNumber">0</p>
+        </div>
+        <div class="upgradeSlot">
+          <img src="resource_icons/efficient_resources.png" />
+          <p class="upgradeNumber" id="efficientResourcesNumber">0</p>
+        </div>
+        <div class="upgradeSlot">
+          <img src="resource_icons/efficient_emeralds.png" />
+          <p class="upgradeNumber" id="efficientEmeraldsNumber">0</p>
+        </div>
+        <div class="upgradeSlot">
+          <img src="resource_icons/resource_rate.png" />
+          <p class="upgradeNumber" id="resourceRateNumber">0</p>
+        </div>
+        <div class="upgradeSlot">
+          <img src="resource_icons/emerald_rate.png" />
+          <p class="upgradeNumber" id="emeraldRateNumber">0</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="terrStats">
+
+    </div>
+
+    <div class="rightStrip">
+      <h1 class="title">Wynncraft Resource Simulation</h1>
+
+      <hr>
+      <div class="importRegion">
+        <h4>Import map file</h4>
+        <input id="importMap" type="file" accept="application/JSON" hidden="hidden" />
+        <button class="btn btn-primary" id="importMapButton" style="margin-top: 5px;">Import Map</button>
+      </div>
+
+      <hr>
+      <div class="selections">
+        <h4>Selections</h4>
+        <input id="importUpgrades" type="file" accept="application/JSON" hidden="hidden" />
+        <button class="btn btn-primary" id="importUpgradesButton" style="margin-top: 5px;">Import Upgrades</button>
+        <button class="btn btn-primary" id="exportUpgradesButton" style="margin-top: 5px;">Export
+          Upgrades</button><br>
+        <button class="btn btn-primary" id="deselectAll" style="margin-top: 5px;">Remove all selections</button>
+      </div>
+
+      <hr>
+      <div class="totalProduction"></div>
+    </div>
+  </div>
+  <!-- <div class="row">
       <div class="col-9">
         <div class="row">
           <div class="col text-center">
@@ -37,7 +137,7 @@
           </div>
         </div>
 
-        <!-- <div class="row">
+        <div class="row">
           <div class="col">
             <div class="trading form-horizontal">
               <h3>Trading:</h3>
@@ -66,35 +166,7 @@
             </div>
           </div>
         </div> -->
-      </div>
-
-      <div class="col-3" style="padding: 0px;">
-        <div class="rightStrip">
-          <h1 class="title">Wynncraft Resource Simulation</h1>
-
-          <hr>
-          <div class="importRegion">
-            <h4>Import map file</h4>
-            <input id="importMap" type="file" accept="application/JSON" hidden="hidden" />
-            <button class="btn btn-primary" id="importMapButton" style="margin-top: 5px;">Import Map</button>
-          </div>
-
-          <hr>
-          <div class="selections">
-            <h4>Selections</h4>
-            <input id="importUpgrades" type="file" accept="application/JSON" hidden="hidden" />
-            <button class="btn btn-primary" id="importUpgradesButton" style="margin-top: 5px;">Import Upgrades</button>
-            <button class="btn btn-primary" id="exportUpgradesButton" style="margin-top: 5px;">Export
-              Upgrades</button><br>
-            <button class="btn btn-primary" id="deselectAll" style="margin-top: 5px;">Remove all selections</button>
-          </div>
-
-          <hr>
-          <div class="totalProduction"></div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <!-- </div> -->
 
   <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>

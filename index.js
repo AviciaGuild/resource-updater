@@ -1,52 +1,26 @@
-$("#efficientResourcesDown").click(modifyUpgrade);
-$("#efficientResourcesUp").click(modifyUpgrade);
-$("#resourceRateDown").click(modifyUpgrade);
-$("#resourceRateUp").click(modifyUpgrade);
-$("#efficientEmeraldsDown").click(modifyUpgrade);
-$("#efficientEmeraldsUp").click(modifyUpgrade);
-$("#emeraldRateDown").click(modifyUpgrade);
-$("#emeraldRateUp").click(modifyUpgrade);
-$("#treasuryBonusConfirm").click(updateTreasuryBonus);
+// $("#efficientResourcesDown").click(modifyUpgrade);
+// $("#efficientResourcesUp").click(modifyUpgrade);
+// $("#resourceRateDown").click(modifyUpgrade);
+// $("#resourceRateUp").click(modifyUpgrade);
+// $("#efficientEmeraldsDown").click(modifyUpgrade);
+// $("#efficientEmeraldsUp").click(modifyUpgrade);
+// $("#emeraldRateDown").click(modifyUpgrade);
+// $("#emeraldRateUp").click(modifyUpgrade);
+// $("#treasuryBonusConfirm").click(updateTreasuryBonus);
 
-let currentTerrNames = ["Efilim Village", "Efilim East Plains", "Light Forest North Entrance", "Light Forest South Exit", "Light Forest West Upper", "Light Forest East Mid", "Light Forest Canyon", "Lone Farmstead", "Twisted Housing", "Viscera Pits West", "Abandoned Manor", "Kander Mines", "Viscera Pits East", "Old Crossroads South", "Lexdale", "Decayed Basin", "Cinfras Entrance", "Fallen Village", "Guild Hall", "Gylia Lake South West", "Jitak's Farm", "Cinfras Outskirts", "Cinfras", "Efilim South Plains", "Light Forest North Exit", "Light Forest East Upper", "Gelibord", "Lexdales Prison", "Mesquis Tower", "Dark Forest Village", "Fungal Grove", "Mushroom Hill", "Gylia Lake North West", "Efilim South East Plains", "Path to Cinfras", "Mansion of Insanity", "Path to Talor", "Heart of Decay", "Twisted Ridge", "Old Crossroads North", "Entrance to Kander", "Dark Forest Cinfras Transition"];
+$(".upgradeSlot").mousedown(modifyUpgrade).contextmenu(() => false);
+$(".upgrades").contextmenu(() => false);
+
+let shifted = false;
+$(document).on('keyup keydown', function (e) { shifted = e.shiftKey });
+
+let currentTerrNames = ["Volcanic Slope", "Eltom", "Lava Lake", "Crater Descent", "Temple Island", "Sky Castle", "Path to Ahmsord Upper", "Old Coal Mine", "Astraulus' Tower", "Ahmsord Outskirts", "Angel Refuge", "Central Islands", "Sky Falls", "Raider's Base Lower", "Jofash Docks", "Kandon Farm", "Molten Heights Portal", "Active Volcano", "Snail Island", "Frozen Fort", "Kandon Ridge", "Molten Reach", "Wybel Island", "Raider's Base Upper", "Entrance to Rodoroc", "Ahmsord", "Dragonling Nests", "Sky Island Ascent", "Lava Lake Bridge", "Path to Ahmsord Lower", "Jofash Tunnel", "Rodoroc", "Swamp Island"];
 let currentTerrs = {};
 
 const upgradesJSON = {
-  "efficientResources": {
-    "current": 0,
-    "displayName": "Efficient Resources",
-    "resource": "emeralds",
-    "type": "%",
-    "upgrades": [0, 50, 100, 150, 200, 250, 300],
-    "costs": [0, 6000, 12000, 24000, 48000, 96000, 192000]
-  },
-  "resourceRate": {
-    "current": 0,
-    "displayName": "Resource Rate",
-    "resource": "emeralds",
-    "type": "s",
-    "upgrades": [4, 3, 2, 1],
-    "costs": [0, 6000, 18000, 32000]
-  },
-  "efficientEmeralds": {
-    "current": 0,
-    "displayName": "Efficient Emeralds",
-    "resource": "ore",
-    "type": "%",
-    "upgrades": [0, 35, 100, 300],
-    "costs": [0, 2000, 8000, 32000]
-  },
-  "emeraldRate": {
-    "current": 0,
-    "displayName": "Emerald Rate",
-    "resource": "crops",
-    "type": "s",
-    "upgrades": [4, 3, 2, 1],
-    "costs": [0, 2000, 8000, 32000]
-  },
   "towerDamage": {
     "current": 0,
-    "displayName": "Tower Damage",
+    "displayName": "Damage",
     "resource": "ore",
     "type": "%",
     "upgrades": [0, 40, 80, 120, 160, 200, 240, 280, 320, 360, 400, 440],
@@ -54,7 +28,7 @@ const upgradesJSON = {
   },
   "towerAttack": {
     "current": 0,
-    "displayName": "Tower Attack Speed",
+    "displayName": "Attack",
     "resource": "crops",
     "type": "%",
     "upgrades": [0, 50, 100, 150, 220, 300, 400, 500, 620, 660, 740, 840],
@@ -62,7 +36,7 @@ const upgradesJSON = {
   },
   "towerHealth": {
     "current": 0,
-    "displayName": "Tower Health",
+    "displayName": "Health",
     "resource": "wood",
     "type": "%",
     "upgrades": [0, 50, 100, 150, 220, 300, 400, 500, 620, 660, 740, 840],
@@ -70,7 +44,7 @@ const upgradesJSON = {
   },
   "towerDefense": {
     "current": 0,
-    "displayName": "Tower Defense",
+    "displayName": "Defense",
     "resource": "fish",
     "type": "%",
     "upgrades": [0, 300, 450, 525, 580, 620, 645, 665, 680, 695, 710, 720],
@@ -78,7 +52,7 @@ const upgradesJSON = {
   },
   "towerMinions": {
     "current": 0,
-    "displayName": "Tower Minions",
+    "displayName": "Minions",
     "resource": "wood",
     "type": "%",
     "upgrades": [0, 150, 200, 250, 300],
@@ -86,7 +60,7 @@ const upgradesJSON = {
   },
   "towerMA": {
     "current": 0,
-    "displayName": "Tower Targets",
+    "displayName": "Multi",
     "resource": "fish",
     "type": "",
     "upgrades": [1, 2, 3],
@@ -94,7 +68,7 @@ const upgradesJSON = {
   },
   "towerAura": {
     "current": 0,
-    "displayName": "Tower Aura",
+    "displayName": "Aura",
     "resource": "crops",
     "type": "s",
     "upgrades": [0, 24, 18, 12],
@@ -102,43 +76,11 @@ const upgradesJSON = {
   },
   "towerVolley": {
     "current": 0,
-    "displayName": "Tower Volley",
+    "displayName": "Volley",
     "resource": "ore",
     "type": "s",
     "upgrades": [0, 20, 15, 10],
     "costs": [0, 200, 400, 800]
-  },
-  "gatheringExp": {
-    "current": 0,
-    "displayName": "Gathering XP Bonus",
-    "resource": "wood",
-    "type": "%",
-    "upgrades": [0, 20, 40, 60, 80, 100, 120, 150, 180],
-    "costs": [0, 600, 1300, 2000, 2700, 3400, 5500, 10000, 20000]
-  },
-  "mobExp": {
-    "current": 0,
-    "displayName": "Combat XP Bonus",
-    "resource": "fish",
-    "type": "%",
-    "upgrades": [0, 20, 40, 60, 80, 100, 150, 200, 300],
-    "costs": [0, 600, 1200, 1800, 2400, 3000, 5000, 10000, 20000]
-  },
-  "mobDamage": {
-    "current": 0,
-    "displayName": "Mob Damage",
-    "resource": "wood",
-    "type": "%",
-    "upgrades": [0, 10, 20, 40, 60, 80, 120, 160, 200],
-    "costs": [0, 600, 1200, 1800, 2400, 3000, 5000, 10000, 20000]
-  },
-  "pvpDamage": {
-    "current": 0,
-    "displayName": "PvP Damage",
-    "resource": "ore",
-    "type": "%",
-    "upgrades": [0, 5, 10, 15, 20, 25, 40, 65, 80],
-    "costs": [0, 600, 1200, 1800, 2400, 3000, 5000, 10000, 20000]
   },
   "resourceStorage": {
     "current": 0,
@@ -156,34 +98,258 @@ const upgradesJSON = {
     "upgrades": [0, 100, 300, 700, 1400, 3300, 7900],
     "costs": [0, 200, 400, 1000, 2500, 8000, 24000]
   },
-  "xpSeeking": {
+  "efficientResources": {
     "current": 0,
-    "displayName": "XP Seeking",
+    "displayName": "Efficient Resources",
     "resource": "emeralds",
-    "type": "/h",
-    "upgrades": [0, 36000, 66000, 120000, 228000, 456000, 900000, 1740000, 2580000, 3360000],
-    "costs": [0, 100, 200, 400, 800, 1600, 3200, 6400, 9600, 12800]
+    "type": "%",
+    "upgrades": [0, 50, 100, 150, 200, 250, 300],
+    "costs": [0, 6000, 12000, 24000, 48000, 96000, 192000]
   },
-  "tomeSeeking": {
+  "efficientEmeralds": {
     "current": 0,
-    "displayName": "Tome Seeking",
-    "resource": "fish",
-    "type": "%/h",
-    "upgrades": [0, 0.15, 1.2, 2.4],
-    "costs": [0, 400, 3200, 6400]
+    "displayName": "Efficient Emeralds",
+    "resource": "ore",
+    "type": "%",
+    "upgrades": [0, 35, 100, 300],
+    "costs": [0, 2000, 8000, 32000]
   },
-  "emeraldSeeking": {
+  "resourceRate": {
     "current": 0,
-    "displayName": "Emerald Seeking",
-    "resource": "fish",
-    "type": "%/h",
-    "upgrades": [0, 0.3, 3, 6, 12, 24],
-    "costs": [0, 200, 800, 1600, 3200, 6400]
+    "displayName": "Resource Rate",
+    "resource": "emeralds",
+    "type": "s",
+    "upgrades": [4, 3, 2, 1],
+    "costs": [0, 6000, 18000, 32000]
+  },
+  "emeraldRate": {
+    "current": 0,
+    "displayName": "Emerald Rate",
+    "resource": "crops",
+    "type": "s",
+    "upgrades": [4, 3, 2, 1],
+    "costs": [0, 2000, 8000, 32000]
   }
 }
 
+let rectangles = {};
+let tradingRoutes = {};
+let selections = [];
+let showingTerr = "";
+
+const map = L.map("map", {
+  crs: L.CRS.Simple,
+  minZoom: 6,
+  maxZoom: 10,
+  zoomControl: false,
+  zoom: 8,
+  preferCanvas: true,
+  markerZoomAnimation: false,
+  inertia: false
+});
+
 updateCurrentTerrs();
-updateRectangles();
+
+updateMap();
+
+function updateMap() {
+  const bounds = [];
+  const images = [];
+
+  L.control.zoom({
+    position: 'topright'
+  }).addTo(map);
+
+  map.fitBounds([[0, -4], [6, 2]]);
+
+  for (let a = 0; a < 3; a++) {
+    for (let b = 0; b < 3; b++) {
+      bounds.push([[a * 2, (2 * b) - 4], [(a + 1) * 2, (2 * (b + 1)) - 4]])
+    }
+  }
+  bounds.push([[6, -2], [8, 0]])
+  bounds.push([[-2, 0], [0, 2]])
+
+  for (let bound of bounds) {
+    images.push(L.imageOverlay(`./tiles/${bound[0][1]}/${bound[0][0]}.png`,
+      bound, {}
+    ));
+  }
+
+  for (let image of images) {
+    image.addTo(map);
+  }
+
+  map.on('zoomend', () => {
+    if (map.getZoom() <= 8) {
+      hideTradeRoutes();
+      hideTooltips();
+    } else if (map.getZoom() >= 8) {
+      showTradeRoutes();
+      showTooltips();
+    }
+    prevZoom = map.getZoom();
+  });
+
+  map.doubleClickZoom.disable();
+
+  $.get("https://www.avicia.tk/map/territories.json", function (terrData) {
+    $.get("https://www.avicia.tk/map/terralldata.json", function (resourceData) {
+      let colors = {
+        "crops": "#ffe83d",
+        "ore": "#ff3333",
+        "fish": "#3098ff",
+        "wood": "#4ab31d",
+        "oasis": "#cf1bbd"
+      };
+
+      for (let territory in terrData.territories) {
+        if (currentTerrNames.includes(territory)) {
+
+          let location = terrData.territories[territory].location
+          let bounds = [[location.startY * -.001, location.startX * .001], [location.endY * -.001, location.endX * .001]]
+
+          let productions = Object.keys(resourceData[territory].resources).filter(e => e !== "emeralds" && resourceData[territory].resources[e] !== '0');
+          if (productions.length > 1) {
+            productions = ["oasis"];
+          }
+
+          let rectangle = L.rectangle(bounds, { color: colors[productions], weight: 2, pane: "markerPane" });
+
+          if (currentTerrNames.includes(territory)) {
+            rectangle.unbindTooltip();
+            rectangle.bindTooltip(`<span class="territoryName" style="visibility: hidden">${territory}</span>`, { sticky: true, interactive: false, permanent: true, direction: 'center', className: 'territoryName', opacity: 1 })
+          }
+
+          if (territory in currentTerrs) {
+            currentTerrs[territory].popup = rectangle;
+
+            rectangle.on("click", () => {
+              if (selections.includes(territory)) {
+                selections = selections.filter(index => index != territory);
+                rectangles[territory].setStyle({ dashArray: [0] });
+              }
+              else {
+                selections.push(territory);
+                rectangles[territory].setStyle({ dashArray: [7] })
+              }
+
+              updateUpgradesMenu();
+            });
+
+            rectangle.on("mouseover", () => {
+              if (shifted) {
+                showingTerr = territory;
+                updateTerrStats();
+              }
+            });
+          }
+          rectangles[territory] = rectangle;
+          rectangle.addTo(map);
+        }
+      }
+
+      for (territory in rectangles) {
+        try {
+          for (route of resourceData[territory]["Trading Routes"]) {
+            if (currentTerrNames.includes(route)) {
+              currentTerrs[territory].conns.push(route);
+              currentTerrs[route].conns.push(territory);
+
+              let polyline = L.polyline([rectangles[territory].getCenter(), rectangles[route].getCenter()], { color: "rgba(0,0,0,0)", pane: "overlayPane" });
+              tradingRoutes[territory] ? tradingRoutes[territory].push(polyline) : tradingRoutes[territory] = [polyline];
+              polyline.addTo(map);
+
+              polyline.on("click", () => {
+                console.log(territory);
+              });
+            }
+          }
+        } catch (e) {
+          console.error(e);
+          console.log(territory);
+        }
+      }
+
+      // updateRectangles();
+    });
+  });
+}
+
+function updateTerrStats() {
+  if (showingTerr == "") return;
+
+  const terrData = currentTerrs[showingTerr];
+  const connsBonus = 1 + (0.3 * new Set(terrData.conns).size);
+  const damageMin = 1000 * connsBonus * (1 + (upgradesJSON.towerDamage.upgrades[terrData.upgrades.towerDamage] / 100));
+  const damageMax = 1500 * connsBonus * (1 + (upgradesJSON.towerDamage.upgrades[terrData.upgrades.towerDamage] / 100));
+  const attackSpeed = Math.round(0.5 * (1 + (upgradesJSON.towerAttack.upgrades[terrData.upgrades.towerAttack] / 100)) * 10) / 10;
+  const health = 300000 * connsBonus * (1 + (upgradesJSON.towerHealth.upgrades[terrData.upgrades.towerHealth] / 100));
+  const defense = 10 * (1 + (upgradesJSON.towerDefense.upgrades[terrData.upgrades.towerDefense] / 100));
+
+  const towerDPSMin = damageMin * attackSpeed;
+  const towerDPSMax = damageMax * attackSpeed;
+  const towerEHP = health / (1 - (defense / 100));
+
+  $(".terrStats").html(`
+  <div class="terr" id="${showingTerr}"">
+    <div class="terrName">
+      <strong><u>${showingTerr}</u></strong>
+    </div>
+
+    <div class="productions">
+      <strong class="emeralds">+${terrData.productions.emeralds} Emeralds <br></strong>
+      ${terrData.type.map(type => `<strong class="${type}">+${terrData.productions[type]} ${type.slice(0, 1).toUpperCase() + type.slice(1)}</strong>`).join("<br>")}
+    </div>
+    <br>
+    <div class="towerStats">
+    Tower Damage: ${makeReadableNumber(damageMin)}-${makeReadableNumber(damageMax)}<br>
+    Tower Attack Speed: ${attackSpeed}x<br>
+    Tower Health: ${makeReadableNumber(health)}<br>
+    Tower Defense: ${defense}%<br>
+    
+    Tower DPS: ${makeReadableNumber(towerDPSMin)}-${makeReadableNumber(towerDPSMax)}<br>
+    Tower EHP: ${makeReadableNumber(towerEHP)}<br>
+    </div>
+    <br>
+    ${Object.keys(terrData.upgrades).filter(type => !type.toLowerCase().includes("emerald") && !type.toLowerCase().includes("resource")).map(type => `${upgradesJSON[type].displayName}: ${terrData.upgrades[type]}`).join("<br>")}
+  </div>
+  `)
+
+  $(".terrStats").css("display", "block");
+}
+
+function hideTradeRoutes() {
+  for (territory in tradingRoutes) {
+    for (route in tradingRoutes[territory]) {
+      tradingRoutes[territory][route].setStyle({
+        color: 'rgba(0,0,0,0)'
+      })
+    }
+  }
+}
+
+function showTradeRoutes() {
+  for (territory in tradingRoutes) {
+    for (route in tradingRoutes[territory]) {
+      tradingRoutes[territory][route].setStyle({
+        color: 'white'
+      })
+    }
+  }
+}
+
+function hideTooltips() {
+  $('.territoryName').each(function (i, obj) {
+    obj.style.visibility = "hidden";
+  });
+}
+
+function showTooltips() {
+  $('.territoryName').each(function (i, obj) {
+    obj.style.visibility = "visible";
+  });
+}
 
 function updateCurrentTerrs() {
   $.get("https://www.avicia.tk/map/terralldata.json", function (terrData) {
@@ -222,17 +388,11 @@ function updateCurrentTerrs() {
           "towerMA": 0,
           "towerAura": 0,
           "towerVolley": 0,
-          "gatheringExp": 0,
-          "mobExp": 0,
-          "mobDamage": 0,
-          "pvpDamage": 0,
           "resourceStorage": 0,
-          "emeraldStorage": 0,
-          "xpSeeking": 0,
-          "tomeSeeking": 0,
-          "emeraldSeeking": 0
+          "emeraldStorage": 0
         },
-        "treasuryBonus": 0
+        "treasuryBonus": 0,
+        "conns": []
       };
 
       currentTerrs[terr] = value;
@@ -244,61 +404,6 @@ function updateCurrentTerrs() {
 
     updateTerrOutputs(Object.keys(currentTerrs));
     updateCards();
-
-    updateUpgrades();
-  });
-}
-
-function updateRectangles() {
-  Object.entries(currentTerrs).forEach(([terrName, terrData]) => {
-    if (terrData.popup != undefined) {
-      terrData.popup.setPopupContent(`
-      <strong>${terrName}</strong>
-      <table>
-        <tr>
-          <th>Type</th>
-          <th>Costs</th>
-          <th>Products</th>
-          <th>Profit</th>
-        </tr>
-
-        <tr>
-          <td>Emeralds</td>
-          <td>${terrData.costs.emeralds}</td>
-          <td>${terrData.productions.emeralds}</td>
-          <td>${terrData.productions.emeralds - terrData.costs.emeralds}</td>
-        </tr>
-
-        <tr>
-          <td>Wood</td>
-          <td>${terrData.costs.wood}</td>
-          <td>${terrData.productions.wood}</td>
-          <td>${terrData.productions.wood - terrData.costs.wood}</td>
-        </tr>
-
-        <tr>
-          <td>Ore</td>
-          <td>${terrData.costs.ore}</td>
-          <td>${terrData.productions.ore}</td>
-          <td>${terrData.productions.ore - terrData.costs.ore}</td>
-        </tr>
-
-        <tr>
-          <td>Fish</td>
-          <td>${terrData.costs.fish}</td>
-          <td>${terrData.productions.fish}</td>
-          <td>${terrData.productions.fish - terrData.costs.fish}</td>
-        </tr>
-
-        <tr>
-          <td>Crop</td>
-          <td>${terrData.costs.crops}</td>
-          <td>${terrData.productions.crops}</td>
-          <td>${terrData.productions.crops - terrData.costs.crops}</td>
-        </tr>
-      </table>
-    `);
-    }
   });
 }
 
@@ -311,46 +416,8 @@ function updateCards() {
   let currentTerrsKeys = Object.keys(currentTerrs);
   currentTerrsKeys.sort();
 
-  // Object.keys(totalCosts).forEach(resourceType => {
-  //   const sentValue = parseInt($(`#trade${resourceType}Sent`).val());
-  //   const receivedValue = parseInt($(`#trade${resourceType}Received`).val());
-
-  //   totalCosts[resourceType] = sentValue > 0 ? sentValue : 0;
-  //   totalProduction[resourceType] = receivedValue > 0 ? receivedValue : 0;
-  // });
-
   currentTerrsKeys.forEach(terrName => {
     const terrData = currentTerrs[terrName];
-
-    $(".terrs").append(`
-    <div class="col-3 terrContainer">
-      <div class="terr ${terrData.selected}" id="${terrName}" onclick="terrOnClick('${terrName.replace("'", "\\\'").replace('"', '\\\"')}')">
-        <div class="cardsName">
-          <strong>${terrName}</strong>
-        </div>
-        <div class="cardsType">
-          ${terrData.type.map(e => e.slice(0, 1).toUpperCase() + e.slice(1)).join(", ")}
-        </div>
-        <div class="cardsProduction">
-          <br><strong><u>Productions:</u></strong><br>
-          ${terrData.productions.emeralds} emeralds <br>
-          ${terrData.type.map(type => terrData.productions[type] + " " + type).join("<br>")}
-        </div>
-        <div class="cardsCosts">
-          <br><strong><u>Costs:</u></strong><br>
-          ${Object.keys(terrData.costs).filter(type => terrData.costs[type] != 0).map(type => terrData.costs[type] + " " + type).join("<br>")}
-        </div>
-        <div class="cardsProfits">
-          <br><strong><u>Profit:</u></strong><br>
-          ${Object.keys(terrData.costs).filter(type => terrData.productions[type] - terrData.costs[type] != 0).map(type => terrData.productions[type] - terrData.costs[type] + " " + type).join("<br>")}
-        </div>
-        <div class="cardsUpgrades">
-          <br><strong><u>Upgrades:</u></strong><br>
-          ${Object.keys(terrData.upgrades).filter(type => terrData.upgrades[type] != 0).map(type => `${upgradesJSON[type].displayName}: ${upgradesJSON[type].upgrades[terrData.upgrades[type]]}${upgradesJSON[type].type} (${terrData.upgrades[type]})`).join("<br>")}
-        </div>
-      </div>
-    </div>
-    `);
 
     Object.entries(terrData.productions).forEach(([productionType, productionValue]) => {
       totalProduction[productionType] += productionValue;
@@ -367,29 +434,22 @@ function updateCards() {
 
   $(".totalProduction").html(`
     <u><strong>Total Production:</strong></u><br>
-    <strong>Emeralds:</strong> ${totalProduction.emeralds}<br>
-    <strong>Wood:</strong> ${totalProduction.wood}<br>
-    <strong>Fish:</strong> ${totalProduction.fish}<br>
-    <strong>Ore:</strong> ${totalProduction.ore}<br>
-    <strong>Crop:</strong> ${totalProduction.crops}<br>
+    <strong class="emeralds"> +${makeReadableNumber(totalProduction.emeralds)} Emeralds </strong><br>
+    <strong class="ore"> +${makeReadableNumber(totalProduction.ore)} Ore </strong><br>
+    <strong class="wood"> +${makeReadableNumber(totalProduction.wood)} Wood </strong><br>
+    <strong class="fish"> +${makeReadableNumber(totalProduction.fish)} Fish </strong><br>
+    <strong class="crops"> +${makeReadableNumber(totalProduction.crops)} Crops </strong><br>
 
     <br>
 
     <u><strong>Total Costs:</strong></u><br>
-    <strong>Emeralds:</strong> ${totalCosts.emeralds}<br>
-    <strong>Wood:</strong> ${totalCosts.wood}<br>
-    <strong>Fish:</strong> ${totalCosts.fish}<br>
-    <strong>Ore:</strong> ${totalCosts.ore}<br>
-    <strong>Crop:</strong> ${totalCosts.crops}<br>
+    ${Object.keys(totalCosts).map(type => `
+    <strong class="${type}"> -${makeReadableNumber(totalCosts[type])} ${type.slice(0, 1).toUpperCase() + type.slice(1)}
+    ${`<span class="${totalCosts[type] > totalProduction[type] ? "overPercentage" : "percentage"}">(${Math.floor((totalCosts[type] / totalProduction[type]) * 100)}%)</span>`} 
+    <span class="profitNum">(${totalProfit[type] > 0 ? `+${makeReadableNumber(totalProfit[type])}` : `-${makeReadableNumber(Math.abs(totalProfit[type]))}`})</span> </strong>
+    `).join("<br>")}
 
     <br>
-
-    <u><strong>Total Profit:</strong></u><br>
-    <strong>Emeralds:</strong> ${totalProfit.emeralds}<br>
-    <strong>Wood:</strong> ${totalProfit.wood}<br>
-    <strong>Fish:</strong> ${totalProfit.fish}<br>
-    <strong>Ore:</strong> ${totalProfit.ore}<br>
-    <strong>Crop:</strong> ${totalProfit.crops}<br>
   `);
 
   const terrs = Object.keys(currentTerrs).filter(terrName => currentTerrs[terrName].selected == "selected");
@@ -399,21 +459,6 @@ function updateCards() {
   else {
     $("#terrsBeingModified").text(terrs.join(", "));
   }
-
-  updateRectangles();
-}
-
-function updateUpgrades() {
-  $(".upgrades").empty();
-  Object.entries(upgradesJSON).forEach(([upgradeName, upgradeData]) => {
-    $(".upgrades").append(`
-    <div class="col-4 upgradeBox">
-      <button class="modifyUpgrade btn btn-warning" id="${upgradeName}D" onclick="modifyUpgrade(this.id)">-</button>
-      <div class="arrowText" id="${upgradeName}">${upgradeData.displayName}: ${upgradeData.upgrades[upgradeData.current]}${upgradeData.type} (${upgradeData.current})</div>
-      <button class="modifyUpgrade btn btn-warning" id="${upgradeName}U" onclick="modifyUpgrade(this.id)">+</button>
-    </div>
-    `);
-  });
 }
 
 
@@ -435,52 +480,76 @@ function updateTerrOutputs(terrs) {
   updateCards();
 }
 
-function terrOnClick(terrName) {
-  if (currentTerrs[terrName].selected == "selected") {
-    currentTerrs[terrName].selected = "unselected";
-  }
-  else {
-    currentTerrs[terrName].selected = "selected";
-  }
-
-  const selectedTerrs = Object.keys(currentTerrs).filter(terrName => currentTerrs[terrName].selected == "selected");
-  if (selectedTerrs.length == 0) {
-    Object.values(upgradesJSON).forEach(upgradeData => upgradeData.current = 0);
-    updateUpgrades();
-  }
-  else if (selectedTerrs.length == 1) {
-    Object.entries(currentTerrs[selectedTerrs[0]].upgrades).forEach(([upgradeType, upgradeAmount]) => {
-      upgradesJSON[upgradeType].current = upgradeAmount;
+function updateUpgradesMenu() {
+  if (selections.length == 0) {
+    Object.values(upgradesJSON).forEach(data => {
+      data.current = 0;
     });
-    updateUpgrades();
-  }
 
-  updateCards();
+    [...$(".upgradeNumber")].forEach(e => {
+      e.innerText = 0;
+    });
+  } else if (selections.length == 1) {
+    [...$(".upgradeNumber")].forEach(e => {
+      const upgradeType = e.id.replace("Number", "");
+      const upgradeValue = currentTerrs[selections[0]].upgrades[upgradeType];;
+
+      e.innerText = upgradeValue;
+      upgradesJSON[upgradeType].current = upgradeValue;
+    });
+  }
 }
 
-function modifyUpgrade(id) {
-  const upgradeType = id.slice(0, -1);
-  const terrs = Object.keys(currentTerrs).filter(terrName => currentTerrs[terrName].selected == "selected");
+function modifyUpgrade(event) {
+  const tags = [...event.currentTarget?.childNodes].filter(e => e.tagName == "P");
+  if (tags.length !== 1) return;
 
-  if (id.slice(-1) == "U") {
-    if (upgradesJSON[upgradeType].current < upgradesJSON[upgradeType].upgrades.length - 1) {
-      upgradesJSON[upgradeType].current++;
-      $(`#${upgradeType}`).text(`${upgradesJSON[upgradeType].displayName}: ${upgradesJSON[upgradeType].upgrades[upgradesJSON[upgradeType].current]}${upgradesJSON[upgradeType].type} (${upgradesJSON[upgradeType].current})`);
-    }
-  }
-  else if (id.slice(-1) == "D") {
-    if (upgradesJSON[upgradeType].current > 0) {
-      upgradesJSON[upgradeType].current--;
-      $(`#${upgradeType}`).text(`${upgradesJSON[upgradeType].displayName}: ${upgradesJSON[upgradeType].upgrades[upgradesJSON[upgradeType].current]}${upgradesJSON[upgradeType].type} (${upgradesJSON[upgradeType].current})`);
-    }
+  const upgradeType = tags[0].id.replace("Number", "");
+  let changeNum = 1;
+
+  if (event.shiftKey) {
+    changeNum = 3;
   }
 
-  terrs.forEach(terr => {
+  if (event.button == 0) {
+    upgradesJSON[upgradeType].current = Math.min(upgradesJSON[upgradeType].current + changeNum, upgradesJSON[upgradeType].upgrades.length - 1);
+  } else if (event.button == 2) {
+    upgradesJSON[upgradeType].current = Math.max(upgradesJSON[upgradeType].current - changeNum, 0);
+  }
+
+  tags[0].innerText = upgradesJSON[upgradeType].current;
+
+  selections.forEach(terr => {
     const terrData = currentTerrs[terr];
-    terrData.upgrades[upgradeType] = upgradesJSON[upgradeType].current;
+
+    Object.keys(terrData.upgrades).forEach(upgradeType => {
+      terrData.upgrades[upgradeType] = upgradesJSON[upgradeType].current;
+    });
   });
 
-  updateTerrOutputs(terrs);
+  updateTerrOutputs(selections);
+  updateTerrStats();
+
+  //   const upgradeType = id.slice(0, -1);
+  //   const terrs = Object.keys(currentTerrs).filter(terrName => currentTerrs[terrName].selected == "selected");
+
+  //   if (id.slice(-1) == "U") {
+  //     if (upgradesJSON[upgradeType].current < upgradesJSON[upgradeType].upgrades.length - 1) {
+  //       upgradesJSON[upgradeType].current++;
+  //       $(`#${upgradeType}`).text(`${upgradesJSON[upgradeType].displayName}: ${upgradesJSON[upgradeType].upgrades[upgradesJSON[upgradeType].current]}${upgradesJSON[upgradeType].type} (${upgradesJSON[upgradeType].current})`);
+  //     }
+  //   }
+  //   else if (id.slice(-1) == "D") {
+  //     if (upgradesJSON[upgradeType].current > 0) {
+  //       upgradesJSON[upgradeType].current--;
+  //       $(`#${upgradeType}`).text(`${upgradesJSON[upgradeType].displayName}: ${upgradesJSON[upgradeType].upgrades[upgradesJSON[upgradeType].current]}${upgradesJSON[upgradeType].type} (${upgradesJSON[upgradeType].current})`);
+  //     }
+  //   }
+
+  //   terrs.forEach(terr => {
+  //     const terrData = currentTerrs[terr];
+  //     terrData.upgrades[upgradeType] = upgradesJSON[upgradeType].current;
+  //   });
 }
 
 function updateTreasuryBonus() {
@@ -543,7 +612,6 @@ $("#importUpgrades").on("change", function () {
     });
 
     updateCards();
-    updateUpgrades();
   }
   reader.readAsText(file);
 
@@ -566,20 +634,18 @@ $("#exportUpgradesButton").on("click", function () {
 });
 
 $("#deselectAll").on("click", function () {
-  Object.values(currentTerrs).forEach(currentTerrValue => {
-    currentTerrValue.selected = "unselected";
-  });
-
-  const selectedTerrs = Object.keys(currentTerrs).filter(terrName => currentTerrs[terrName].selected == "selected");
-  if (selectedTerrs.length == 0) {
-    Object.values(upgradesJSON).forEach(upgradeData => upgradeData.current = 0);
-    updateUpgrades();
-  }
-  else if (selectedTerrs.length == 1) {
-    Object.entries(currentTerrs[selectedTerrs[0]].upgrades).forEach(([upgradeType, upgradeAmount]) => {
-      upgradesJSON[upgradeType].current = upgradeAmount;
-    });
-    updateUpgrades();
-  }
-  updateCards();
+  selections.forEach(territory => rectangles[territory].setStyle({ dashArray: [0] }));
+  selections = [];
 });
+
+function makeReadableNumber(number) {
+  if (number >= 1000000000) {
+    return `${Math.floor(number / 10000000) / 100}B`
+  } else if (number >= 1000000) {
+    return `${Math.floor(number / 10000) / 100}M`
+  } else if (number >= 1000) {
+    return `${Math.floor(number / 10) / 100}K`
+  }
+
+  return Math.floor(number);
+}

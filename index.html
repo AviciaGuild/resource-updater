@@ -104,6 +104,20 @@
         <button class="btn btn-primary" id="exportUpgradesButton" style="margin-top: 5px;">Export
           Upgrades</button><br>
         <button class="btn btn-primary" id="deselectAll" style="margin-top: 5px;">Remove all selections</button>
+
+        <div class="dropdown">
+          <button class="btn btn-danger dropdown-toggle" style="margin-top: 5px;" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            Very Low
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <button class="dropdown-item" onclick="updateGlobalTreasury('Very Low')">Very Low</button>
+            <button class="dropdown-item" onclick="updateGlobalTreasury('Low')">Low</button>
+            <button class="dropdown-item" onclick="updateGlobalTreasury('Medium')">Medium</button>
+            <button class="dropdown-item" onclick="updateGlobalTreasury('High')">High</button>
+            <button class="dropdown-item" onclick="updateGlobalTreasury('Very High')">Very High</button>
+          </div>
+        </div>
       </div>
 
       <hr>

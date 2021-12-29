@@ -16,6 +16,8 @@ $(document).on('keyup keydown', function (e) { shifted = e.shiftKey });
 
 let currentTerrNames = ["Volcanic Slope", "Eltom", "Lava Lake", "Crater Descent", "Temple Island", "Sky Castle", "Path to Ahmsord Upper", "Old Coal Mine", "Astraulus' Tower", "Ahmsord Outskirts", "Angel Refuge", "Central Islands", "Sky Falls", "Raider's Base Lower", "Jofash Docks", "Kandon Farm", "Molten Heights Portal", "Active Volcano", "Snail Island", "Frozen Fort", "Kandon Ridge", "Molten Reach", "Wybel Island", "Raider's Base Upper", "Entrance to Rodoroc", "Ahmsord", "Dragonling Nests", "Sky Island Ascent", "Lava Lake Bridge", "Path to Ahmsord Lower", "Jofash Tunnel", "Rodoroc", "Swamp Island"];
 let currentTerrs = {};
+let hq = "Central Islands";
+let globalTreasury = "Very Low";
 
 const upgradesJSON = {
   "towerDamage": {
@@ -150,8 +152,6 @@ const map = L.map("map", {
 
 updateCurrentTerrs();
 
-updateMap();
-
 function updateMap() {
   const bounds = [];
   const images = [];
@@ -271,7 +271,7 @@ function updateMap() {
         }
       }
 
-      // updateRectangles();
+      updateTreasuryBonus();
     });
   });
 }
@@ -357,42 +357,42 @@ function updateCurrentTerrs() {
     currentTerrNames.forEach(terr => {
       const resources = Object.keys(terrData[terr].resources).filter(resourceType => terrData[terr].resources[resourceType] != 0 && resourceType != "emeralds");
       const value = {
-        "type": resources,
-        "baseResources": terrData[terr].resources[resources[0]],
-        "baseEmeralds": terrData[terr].resources.emeralds,
-        "selected": "unselected",
-        "productions": {
-          "emeralds": 0,
-          "wood": 0,
-          "fish": 0,
-          "ore": 0,
-          "crops": 0
+        type: resources,
+        baseResources: terrData[terr].resources[resources[0]],
+        baseEmeralds: terrData[terr].resources.emeralds,
+        productions: {
+          emeralds: 0,
+          wood: 0,
+          fish: 0,
+          ore: 0,
+          crops: 0
         },
-        "costs": {
-          "emeralds": 0,
-          "wood": 0,
-          "fish": 0,
-          "ore": 0,
-          "crops": 0
+        costs: {
+          emeralds: 0,
+          wood: 0,
+          fish: 0,
+          ore: 0,
+          crops: 0
         },
-        "upgrades": {
-          "efficientResources": 0,
-          "resourceRate": 0,
-          "efficientEmeralds": 0,
-          "emeraldRate": 0,
-          "towerDamage": 0,
-          "towerAttack": 0,
-          "towerHealth": 0,
-          "towerDefense": 0,
-          "towerMinions": 0,
-          "towerMA": 0,
-          "towerAura": 0,
-          "towerVolley": 0,
-          "resourceStorage": 0,
-          "emeraldStorage": 0
+        upgrades: {
+          efficientResources: 0,
+          resourceRate: 0,
+          efficientEmeralds: 0,
+          emeraldRate: 0,
+          towerDamage: 0,
+          towerAttack: 0,
+          towerHealth: 0,
+          towerDefense: 0,
+          towerMinions: 0,
+          towerMA: 0,
+          towerAura: 0,
+          towerVolley: 0,
+          resourceStorage: 0,
+          emeraldStorage: 0
         },
-        "treasuryBonus": 0,
-        "conns": []
+        treasuryBonus: 0,
+        treasuryValue: globalTreasury,
+        conns: []
       };
 
       currentTerrs[terr] = value;
@@ -402,8 +402,7 @@ function updateCurrentTerrs() {
       upgradeData.current = 0;
     });
 
-    updateTerrOutputs(Object.keys(currentTerrs));
-    updateCards();
+    updateMap();
   });
 }
 
@@ -461,7 +460,6 @@ function updateCards() {
   }
 }
 
-
 function updateTerrOutputs(terrs) {
   terrs.forEach(terr => {
     const terrData = currentTerrs[terr];
@@ -476,7 +474,7 @@ function updateTerrOutputs(terrs) {
       currentTerrs[terr].costs[upgradeData.resource] += upgradeData.costs[terrData.upgrades[upgradeType]];
     });
   });
-
+  
   updateCards();
 }
 
@@ -529,45 +527,50 @@ function modifyUpgrade(event) {
 
   updateTerrOutputs(selections);
   updateTerrStats();
+}
 
-  //   const upgradeType = id.slice(0, -1);
-  //   const terrs = Object.keys(currentTerrs).filter(terrName => currentTerrs[terrName].selected == "selected");
+function updateGlobalTreasury(newGlobalTreasury) {
+  globalTreasury = newGlobalTreasury;
+  Object.values(currentTerrs).forEach(terrData => {
+    terrData.treasuryValue = globalTreasury;
+  });
 
-  //   if (id.slice(-1) == "U") {
-  //     if (upgradesJSON[upgradeType].current < upgradesJSON[upgradeType].upgrades.length - 1) {
-  //       upgradesJSON[upgradeType].current++;
-  //       $(`#${upgradeType}`).text(`${upgradesJSON[upgradeType].displayName}: ${upgradesJSON[upgradeType].upgrades[upgradesJSON[upgradeType].current]}${upgradesJSON[upgradeType].type} (${upgradesJSON[upgradeType].current})`);
-  //     }
-  //   }
-  //   else if (id.slice(-1) == "D") {
-  //     if (upgradesJSON[upgradeType].current > 0) {
-  //       upgradesJSON[upgradeType].current--;
-  //       $(`#${upgradeType}`).text(`${upgradesJSON[upgradeType].displayName}: ${upgradesJSON[upgradeType].upgrades[upgradesJSON[upgradeType].current]}${upgradesJSON[upgradeType].type} (${upgradesJSON[upgradeType].current})`);
-  //     }
-  //   }
-
-  //   terrs.forEach(terr => {
-  //     const terrData = currentTerrs[terr];
-  //     terrData.upgrades[upgradeType] = upgradesJSON[upgradeType].current;
-  //   });
+  $("#dropdownMenuButton").text(globalTreasury);
+  updateTreasuryBonus();
 }
 
 function updateTreasuryBonus() {
-  let treasuryBonusValue = parseInt($("#treasuryBonus").val());
-  const changedTerrs = [];
+  const baseValues = {
+    0: 10,
+    1: 10,
+    2: 10,
+    3: 8.5,
+    4: 7,
+    5: 5.5,
+    6: 4
+  };
+  const multiplierConversions = {
+    "Very Low": 0,
+    "Low": 1,
+    "Medium": 2,
+    "High": 2.5,
+    "Very High": 3
+  };
 
-  if (isNaN(treasuryBonusValue)) {
-    treasuryBonusValue = 0;
-  }
-
-  Object.entries(currentTerrs).forEach(([terr, terrData]) => {
-    if (terrData.selected == "selected") {
-      terrData.treasuryBonus = treasuryBonusValue;
-      changedTerrs.push(terr);
-    }
+  Object.entries(currentTerrs).forEach(([terrName, terrData]) => {
+    let shortestTreasuryRoute = Math.min(getShortestRoute(hq, terrName, []), 6);
+    terrData.treasuryBonus = baseValues[shortestTreasuryRoute] * multiplierConversions[terrData.treasuryValue];
   });
+  
+  updateTerrOutputs(Object.keys(currentTerrs));
+}
 
-  updateTerrOutputs(changedTerrs);
+function getShortestRoute(startTerr, endTerr, formerTerrs) {
+  if (!(startTerr in currentTerrs)) return 999;
+  if (startTerr == endTerr) return 0;
+
+  const conns = [...new Set(currentTerrs[startTerr].conns)].filter(conn => !formerTerrs.includes(conn));
+  return 1 + Math.min(...conns.map(conn => getShortestRoute(conn, endTerr, [...formerTerrs, conn])));
 }
 
 $("#importMapButton").on("click", function () {

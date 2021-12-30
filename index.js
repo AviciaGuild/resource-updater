@@ -298,8 +298,8 @@ function updateTerrStats() {
     </div>
 
     <div class="productions">
-      <strong class="emeralds">+${terrData.productions.emeralds} Emeralds <br></strong>
-      ${terrData.type.map(type => `<strong class="${type}">+${terrData.productions[type]} ${type.slice(0, 1).toUpperCase() + type.slice(1)}</strong>`).join("<br>")}
+      <strong class="emeralds">+${Math.round(terrData.productions.emeralds)} Emeralds <br></strong>
+      ${terrData.type.map(type => `<strong class="${type}">+${Math.round(terrData.productions[type])} ${type.slice(0, 1).toUpperCase() + type.slice(1)}</strong>`).join("<br>")}
     </div>
     <br>
     <div class="towerStats">
@@ -619,6 +619,8 @@ $("#importUpgrades").on("change", function () {
   reader.readAsText(file);
 
   document.getElementById("importUpgrades").value = "";
+
+  updateMap();
 });
 
 $("#exportUpgradesButton").on("click", function () {

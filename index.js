@@ -735,6 +735,8 @@ $("#resetUpgrades").on("click", function () {
     globalTreasury = "Very Low";
     selections = [];
 
+    updateGlobalTreasury("Very Low");
+
     updateLocalStorage();
     setup();
   } else {

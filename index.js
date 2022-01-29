@@ -1,18 +1,13 @@
-// $("#efficientResourcesDown").click(modifyUpgrade);
-// $("#efficientResourcesUp").click(modifyUpgrade);
-// $("#resourceRateDown").click(modifyUpgrade);
-// $("#resourceRateUp").click(modifyUpgrade);
-// $("#efficientEmeraldsDown").click(modifyUpgrade);
-// $("#efficientEmeraldsUp").click(modifyUpgrade);
-// $("#emeraldRateDown").click(modifyUpgrade);
-// $("#emeraldRateUp").click(modifyUpgrade);
-// $("#treasuryBonusConfirm").click(updateTreasuryBonus);
-
 $(".upgradeSlot").mousedown(modifyUpgrade).contextmenu(() => false);
 $(".upgrades").contextmenu(() => false);
 
-let shifted = false;
-$(document).on('keyup keydown', function (e) { shifted = e.shiftKey });
+$(document).on('keyup keydown', function (e) {
+  if (e.shiftKey && lastHovereredTerr) {
+    showingTerr = lastHovereredTerr;
+
+    updateTerrStatsCard();
+  }
+});
 
 let currentTerrNames = ["Volcanic Slope", "Eltom", "Lava Lake", "Crater Descent", "Temple Island", "Sky Castle", "Path to Ahmsord Upper", "Old Coal Mine", "Astraulus' Tower", "Ahmsord Outskirts", "Angel Refuge", "Central Islands", "Sky Falls", "Raider's Base Lower", "Jofash Docks", "Kandon Farm", "Molten Heights Portal", "Active Volcano", "Snail Island", "Frozen Fort", "Kandon Ridge", "Molten Reach", "Wybel Island", "Raider's Base Upper", "Entrance to Rodoroc", "Ahmsord", "Dragonling Nests", "Sky Island Ascent", "Lava Lake Bridge", "Path to Ahmsord Lower", "Jofash Tunnel", "Rodoroc", "Swamp Island"];
 let currentTerrs = {};
@@ -138,23 +133,113 @@ let rectangles = {};
 let tradingRoutes = {};
 let selections = [];
 let showingTerr = "";
+let lastHovereredTerr = null;
+let map;
 
-const map = L.map("map", {
-  crs: L.CRS.Simple,
-  minZoom: 6,
-  maxZoom: 10,
-  zoomControl: false,
-  zoom: 8,
-  preferCanvas: true,
-  markerZoomAnimation: false,
-  inertia: false
-});
+setup();
 
-updateCurrentTerrs();
+async function setup() {
+  const savedCurrentTerrNames = localStorage.getItem("currentTerrNames");
+  if (savedCurrentTerrNames) {
+    const savedCurrentTerrNamesData = JSON.parse(savedCurrentTerrNames);
+    currentTerrNames = savedCurrentTerrNamesData.currentTerrNames;
+    hq = savedCurrentTerrNamesData.hq;
+
+    if (!currentTerrNames.includes(hq)) {
+      setHq();
+    }
+  }
+
+  const savedCurrentTerrs = localStorage.getItem("currentTerrs");
+  if (savedCurrentTerrs && Object.keys(JSON.parse(savedCurrentTerrs)).length > 0) {
+    currentTerrs = JSON.parse(savedCurrentTerrs);
+    updateGlobalTreasury(currentTerrs[hq]?.treasuryValue ? currentTerrs[hq]?.treasuryValue : "Very Low");
+
+    await updateCurrentTerrs();
+    updateTotalOutput();
+  } else {
+    await updateCurrentTerrs();
+    updateTerrOutputs(Object.keys(currentTerrs));
+  }
+
+  updateUpgradesMenu();
+}
+
+async function updateCurrentTerrs() {
+  return new Promise((resolve, reject) => {
+    $.get("https://www.avicia.tk/map/terralldata.json", function (terrData) {
+      currentTerrNames.forEach(terr => {
+        if (terr in currentTerrs) return;
+
+        const resources = Object.keys(terrData[terr].resources).filter(resourceType => terrData[terr].resources[resourceType] != 0 && resourceType != "emeralds");
+        const value = {
+          type: resources,
+          baseResources: terrData[terr].resources[resources[0]],
+          baseEmeralds: terrData[terr].resources.emeralds,
+          productions: {
+            emeralds: 0,
+            wood: 0,
+            fish: 0,
+            ore: 0,
+            crops: 0
+          },
+          costs: {
+            emeralds: 0,
+            wood: 0,
+            fish: 0,
+            ore: 0,
+            crops: 0
+          },
+          upgrades: {
+            efficientResources: 0,
+            resourceRate: 0,
+            efficientEmeralds: 0,
+            emeraldRate: 0,
+            towerDamage: 0,
+            towerAttack: 0,
+            towerHealth: 0,
+            towerDefense: 0,
+            towerMinions: 0,
+            towerMA: 0,
+            towerAura: 0,
+            towerVolley: 0,
+            resourceStorage: 0,
+            emeraldStorage: 0
+          },
+          treasuryBonus: 0,
+          treasuryValue: globalTreasury,
+          conns: []
+        };
+
+        currentTerrs[terr] = value;
+      });
+
+      Object.values(upgradesJSON).forEach(upgradeData => {
+        upgradeData.current = 0;
+      });
+
+      updateMap();
+
+      resolve();
+    });
+  });
+}
 
 function updateMap() {
   const bounds = [];
   const images = [];
+
+  map?.remove();
+  map = L.map("map", {
+    crs: L.CRS.Simple,
+    minZoom: 6,
+    maxZoom: 10,
+    zoomControl: false,
+    zoom: 8,
+    preferCanvas: true,
+    markerZoomAnimation: false,
+    inertia: false
+  });
 
   L.control.zoom({
     position: 'topright'
@@ -222,8 +307,6 @@ function updateMap() {
           }
 
           if (territory in currentTerrs) {
-            currentTerrs[territory].popup = rectangle;
-
             rectangle.on("click", () => {
               if (selections.includes(territory)) {
                 selections = selections.filter(index => index != territory);
@@ -238,10 +321,11 @@ function updateMap() {
             });
 
             rectangle.on("mouseover", () => {
-              if (shifted) {
-                showingTerr = territory;
-                updateTerrStats();
-              }
+              lastHovereredTerr = territory;
+            });
+
+            rectangle.on("mouseout", () => {
+              lastHovereredTerr = null;
             });
           }
           rectangles[territory] = rectangle;
@@ -259,15 +343,10 @@ function updateMap() {
               let polyline = L.polyline([rectangles[territory].getCenter(), rectangles[route].getCenter()], { color: "rgba(0,0,0,0)", pane: "overlayPane" });
               tradingRoutes[territory] ? tradingRoutes[territory].push(polyline) : tradingRoutes[territory] = [polyline];
               polyline.addTo(map);
-
-              polyline.on("click", () => {
-                console.log(territory);
-              });
             }
           }
         } catch (e) {
           console.error(e);
-          console.log(territory);
         }
       }
 
@@ -276,8 +355,118 @@ function updateMap() {
   });
 }
 
-function updateTerrStats() {
-  if (showingTerr == "") return;
+function updateTreasuryBonus() {
+  const baseValues = {
+    0: 10,
+    1: 10,
+    2: 10,
+    3: 8.5,
+    4: 7,
+    5: 5.5,
+    6: 4
+  };
+  const multiplierConversions = {
+    "Very Low": 0,
+    "Low": 1,
+    "Medium": 2,
+    "High": 2.5,
+    "Very High": 3
+  };
+  const shortestRoutes = getShortestRoutes(hq);
+
+  Object.entries(currentTerrs).forEach(([terrName, terrData]) => {
+    let shortestTreasuryRoute = Math.min(shortestRoutes[terrName], 6);
+
+    if (shortestTreasuryRoute === undefined | isNaN(shortestTreasuryRoute)) {
+      shortestTreasuryRoute = 6;
+    }
+
+    terrData.treasuryBonus = baseValues[shortestTreasuryRoute] * multiplierConversions[terrData.treasuryValue];
+
+
+  });
+
+  updateTerrOutputs(Object.keys(currentTerrs));
+}
+
+function updateTerrOutputs(terrs) {
+  terrs.forEach(terr => {
+    const terrData = currentTerrs[terr];
+
+    currentTerrs[terr].type.forEach(type => {
+      currentTerrs[terr].productions[type] = ((currentTerrs[terr].baseResources / 900) * (1 + (upgradesJSON.efficientResources.upgrades[terrData.upgrades.efficientResources] / 100)) * (60 * (60 / upgradesJSON.resourceRate.upgrades[terrData.upgrades.resourceRate]))) * (1 + (currentTerrs[terr].treasuryBonus) / 100);
+    });
+    currentTerrs[terr].productions.emeralds = ((currentTerrs[terr].baseEmeralds / 900) * (1 + (upgradesJSON.efficientEmeralds.upgrades[terrData.upgrades.efficientEmeralds] / 100)) * (60 * (60 / upgradesJSON.emeraldRate.upgrades[terrData.upgrades.emeraldRate]))) * (1 + (currentTerrs[terr].treasuryBonus) / 100);
+
+    currentTerrs[terr].costs = { "emeralds": 0, "wood": 0, "fish": 0, "ore": 0, "crops": 0 };
+    Object.entries(upgradesJSON).forEach(([upgradeType, upgradeData]) => {
+      currentTerrs[terr].costs[upgradeData.resource] += upgradeData.costs[terrData.upgrades[upgradeType]];
+    });
+  });
+
+  updateTotalOutput();
+}
+
+function updateTotalOutput() {
+  const totalProduction = { "emeralds": 0, "wood": 0, "fish": 0, "ore": 0, "crops": 0 };
+  const totalCosts = { "emeralds": 0, "wood": 0, "fish": 0, "ore": 0, "crops": 0 };
+  const totalProfit = { "emeralds": 0, "wood": 0, "fish": 0, "ore": 0, "crops": 0 };
+
+  let currentTerrsKeys = Object.keys(currentTerrs);
+  currentTerrsKeys.sort();
+
+  currentTerrsKeys.forEach(terrName => {
+    const terrData = currentTerrs[terrName];
+
+    Object.entries(terrData.productions).forEach(([productionType, productionValue]) => {
+      totalProduction[productionType] += productionValue;
+    });
+
+    Object.entries(terrData.costs).forEach(([costType, costValue]) => {
+      totalCosts[costType] += costValue;
+    });
+
+    Object.keys(totalProfit).forEach(resourceType => {
+      totalProfit[resourceType] = totalProduction[resourceType] - totalCosts[resourceType];
+    });
+
+    updateTerrStatsCard();
+  });
+
+
+  $(".totalProduction").html(`
+    <u><strong>Total Production:</strong></u><br>
+    <strong class="emeralds"> +${makeReadableNumber(totalProduction.emeralds)} Emeralds </strong><br>
+    <strong class="ore"> +${makeReadableNumber(totalProduction.ore)} Ore </strong><br>
+    <strong class="wood"> +${makeReadableNumber(totalProduction.wood)} Wood </strong><br>
+    <strong class="fish"> +${makeReadableNumber(totalProduction.fish)} Fish </strong><br>
+    <strong class="crops"> +${makeReadableNumber(totalProduction.crops)} Crops </strong><br>
+
+    <br>
+
+    <u><strong>Total Costs:</strong></u><br>
+    ${Object.keys(totalCosts).map(type => `
+    <strong class="${type}"> -${makeReadableNumber(totalCosts[type])} ${type.slice(0, 1).toUpperCase() + type.slice(1)}
+    ${`<span class="${totalCosts[type] > totalProduction[type] ? "overPercentage" : "percentage"}">(${totalProduction[type] == 0 && totalCosts[type] == 0 ? "100" : Math.floor((totalCosts[type] / totalProduction[type]) * 100)}%)</span>`} 
+    <span class="profitNum">(${totalProfit[type] > 0 ? `+${makeReadableNumber(totalProfit[type])}` : `-${makeReadableNumber(Math.abs(totalProfit[type]))}`})</span> </strong>
+    `).join("<br>")}
+
+    <br>
+  `);
+
+  const terrs = Object.keys(currentTerrs).filter(terrName => currentTerrs[terrName].selected == "selected");
+  if (terrs.length == 0) {
+    $("#terrsBeingModified").text("None");
+  }
+  else {
+    $("#terrsBeingModified").text(terrs.join(", "));
+  }
+
+  updateLocalStorage();
+}
+
+function updateTerrStatsCard() {
+  if (showingTerr == "" || !(showingTerr in currentTerrs)) return $(".terrStats").css("display", "none");;
 
   const terrData = currentTerrs[showingTerr];
   const connsBonus = 1 + (0.3 * new Set(terrData.conns).size);
@@ -351,133 +540,6 @@ function showTooltips() {
   });
 }
 
-function updateCurrentTerrs() {
-  $.get("https://www.avicia.tk/map/terralldata.json", function (terrData) {
-    currentTerrs = {};
-    currentTerrNames.forEach(terr => {
-      const resources = Object.keys(terrData[terr].resources).filter(resourceType => terrData[terr].resources[resourceType] != 0 && resourceType != "emeralds");
-      const value = {
-        type: resources,
-        baseResources: terrData[terr].resources[resources[0]],
-        baseEmeralds: terrData[terr].resources.emeralds,
-        productions: {
-          emeralds: 0,
-          wood: 0,
-          fish: 0,
-          ore: 0,
-          crops: 0
-        },
-        costs: {
-          emeralds: 0,
-          wood: 0,
-          fish: 0,
-          ore: 0,
-          crops: 0
-        },
-        upgrades: {
-          efficientResources: 0,
-          resourceRate: 0,
-          efficientEmeralds: 0,
-          emeraldRate: 0,
-          towerDamage: 0,
-          towerAttack: 0,
-          towerHealth: 0,
-          towerDefense: 0,
-          towerMinions: 0,
-          towerMA: 0,
-          towerAura: 0,
-          towerVolley: 0,
-          resourceStorage: 0,
-          emeraldStorage: 0
-        },
-        treasuryBonus: 0,
-        treasuryValue: globalTreasury,
-        conns: []
-      };
-
-      currentTerrs[terr] = value;
-    });
-
-    Object.values(upgradesJSON).forEach(upgradeData => {
-      upgradeData.current = 0;
-    });
-
-    updateMap();
-  });
-}
-
-function updateCards() {
-  const totalProduction = { "emeralds": 0, "wood": 0, "fish": 0, "ore": 0, "crops": 0 };
-  const totalCosts = { "emeralds": 0, "wood": 0, "fish": 0, "ore": 0, "crops": 0 };
-  const totalProfit = { "emeralds": 0, "wood": 0, "fish": 0, "ore": 0, "crops": 0 };
-
-  $(".terrs").empty();
-  let currentTerrsKeys = Object.keys(currentTerrs);
-  currentTerrsKeys.sort();
-
-  currentTerrsKeys.forEach(terrName => {
-    const terrData = currentTerrs[terrName];
-
-    Object.entries(terrData.productions).forEach(([productionType, productionValue]) => {
-      totalProduction[productionType] += productionValue;
-    });
-
-    Object.entries(terrData.costs).forEach(([costType, costValue]) => {
-      totalCosts[costType] += costValue;
-    });
-
-    Object.keys(totalProfit).forEach(resourceType => {
-      totalProfit[resourceType] = totalProduction[resourceType] - totalCosts[resourceType];
-    });
-  });
-
-  $(".totalProduction").html(`
-    <u><strong>Total Production:</strong></u><br>
-    <strong class="emeralds"> +${makeReadableNumber(totalProduction.emeralds)} Emeralds </strong><br>
-    <strong class="ore"> +${makeReadableNumber(totalProduction.ore)} Ore </strong><br>
-    <strong class="wood"> +${makeReadableNumber(totalProduction.wood)} Wood </strong><br>
-    <strong class="fish"> +${makeReadableNumber(totalProduction.fish)} Fish </strong><br>
-    <strong class="crops"> +${makeReadableNumber(totalProduction.crops)} Crops </strong><br>
-
-    <br>
-
-    <u><strong>Total Costs:</strong></u><br>
-    ${Object.keys(totalCosts).map(type => `
-    <strong class="${type}"> -${makeReadableNumber(totalCosts[type])} ${type.slice(0, 1).toUpperCase() + type.slice(1)}
-    ${`<span class="${totalCosts[type] > totalProduction[type] ? "overPercentage" : "percentage"}">(${Math.floor((totalCosts[type] / totalProduction[type]) * 100)}%)</span>`} 
-    <span class="profitNum">(${totalProfit[type] > 0 ? `+${makeReadableNumber(totalProfit[type])}` : `-${makeReadableNumber(Math.abs(totalProfit[type]))}`})</span> </strong>
-    `).join("<br>")}
-
-    <br>
-  `);
-
-  const terrs = Object.keys(currentTerrs).filter(terrName => currentTerrs[terrName].selected == "selected");
-  if (terrs.length == 0) {
-    $("#terrsBeingModified").text("None");
-  }
-  else {
-    $("#terrsBeingModified").text(terrs.join(", "));
-  }
-}
-
-function updateTerrOutputs(terrs) {
-  terrs.forEach(terr => {
-    const terrData = currentTerrs[terr];
-
-    currentTerrs[terr].type.forEach(type => {
-      currentTerrs[terr].productions[type] = ((currentTerrs[terr].baseResources / 900) * (1 + (upgradesJSON.efficientResources.upgrades[terrData.upgrades.efficientResources] / 100)) * (60 * (60 / upgradesJSON.resourceRate.upgrades[terrData.upgrades.resourceRate]))) * (1 + (currentTerrs[terr].treasuryBonus) / 100);
-    });
-    currentTerrs[terr].productions.emeralds = ((currentTerrs[terr].baseEmeralds / 900) * (1 + (upgradesJSON.efficientEmeralds.upgrades[terrData.upgrades.efficientEmeralds] / 100)) * (60 * (60 / upgradesJSON.emeraldRate.upgrades[terrData.upgrades.emeraldRate]))) * (1 + (currentTerrs[terr].treasuryBonus) / 100);
-
-    currentTerrs[terr].costs = { "emeralds": 0, "wood": 0, "fish": 0, "ore": 0, "crops": 0 };
-    Object.entries(upgradesJSON).forEach(([upgradeType, upgradeData]) => {
-      currentTerrs[terr].costs[upgradeData.resource] += upgradeData.costs[terrData.upgrades[upgradeType]];
-    });
-  });
-  
-  updateCards();
-}
-
 function updateUpgradesMenu() {
   if (selections.length == 0) {
     Object.values(upgradesJSON).forEach(data => {
@@ -490,7 +552,7 @@ function updateUpgradesMenu() {
   } else if (selections.length == 1) {
     [...$(".upgradeNumber")].forEach(e => {
       const upgradeType = e.id.replace("Number", "");
-      const upgradeValue = currentTerrs[selections[0]].upgrades[upgradeType];;
+      const upgradeValue = currentTerrs[selections[0]].upgrades[upgradeType];
 
       e.innerText = upgradeValue;
       upgradesJSON[upgradeType].current = upgradeValue;
@@ -526,7 +588,11 @@ function modifyUpgrade(event) {
   });
 
   updateTerrOutputs(selections);
-  updateTerrStats();
+}
+
+function updateLocalStorage() {
+  localStorage.setItem("currentTerrs", JSON.stringify(currentTerrs));
+  localStorage.setItem("currentTerrNames", JSON.stringify({ currentTerrNames, hq }));
 }
 
 function updateGlobalTreasury(newGlobalTreasury) {
@@ -539,38 +605,24 @@ function updateGlobalTreasury(newGlobalTreasury) {
   updateTreasuryBonus();
 }
 
-function updateTreasuryBonus() {
-  const baseValues = {
-    0: 10,
-    1: 10,
-    2: 10,
-    3: 8.5,
-    4: 7,
-    5: 5.5,
-    6: 4
-  };
-  const multiplierConversions = {
-    "Very Low": 0,
-    "Low": 1,
-    "Medium": 2,
-    "High": 2.5,
-    "Very High": 3
-  };
+function getShortestRoutes(startTerr) {
+  const visited = [];
+  let que = [startTerr];
+  const shortestRoutes = {};
+  shortestRoutes[startTerr] = 0;
 
-  Object.entries(currentTerrs).forEach(([terrName, terrData]) => {
-    let shortestTreasuryRoute = Math.min(getShortestRoute(hq, terrName, []), 6);
-    terrData.treasuryBonus = baseValues[shortestTreasuryRoute] * multiplierConversions[terrData.treasuryValue];
-  });
-  
-  updateTerrOutputs(Object.keys(currentTerrs));
-}
+  while (que.length > 0) {
+    const currentTerr = que.shift();
+    if (currentTerr in currentTerrs) {
+      for (const conn of [...new Set(currentTerrs[currentTerr].conns)].filter(conn => !visited.includes(conn) && !(conn in shortestRoutes))) {
+        shortestRoutes[conn] = shortestRoutes[currentTerr] + 1;
+        visited.push(conn);
+        que.push(conn);
+      };
+    }
+  }
 
-function getShortestRoute(startTerr, endTerr, formerTerrs) {
-  if (!(startTerr in currentTerrs)) return 999;
-  if (startTerr == endTerr) return 0;
-
-  const conns = [...new Set(currentTerrs[startTerr].conns)].filter(conn => !formerTerrs.includes(conn));
-  return 1 + Math.min(...conns.map(conn => getShortestRoute(conn, endTerr, [...formerTerrs, conn])));
+  return shortestRoutes;
 }
 
 $("#importMapButton").on("click", function () {
@@ -584,12 +636,40 @@ $("#importMap").on("change", function () {
   reader.onload = function (file) {
     const mapJSON = JSON.parse(file.target.result);
     currentTerrNames = Object.keys(mapJSON.territories).filter(terrName => mapJSON.territories[terrName] == "AVO");
+    currentTerrs = {};
+    selections = [];
+
+    setHq();
+
     updateCurrentTerrs();
+    updateLocalStorage();
   }
   reader.readAsText(file);
 
   document.getElementById("importMap").value = "";
+  updateLocalStorage()
 });
+
+function setHq() {
+  let run = true;
+
+  while (run) {
+    let promptHq = prompt("What territory would you like to set the HQ to? If you don't care, say none - if you say none, treasury will not work properly. Current choices: " +
+      currentTerrNames.sort().join(", "));
+    if (promptHq === null) {
+      promptHq = "none";
+    }
+
+    let foundHq = currentTerrNames.find(e => e.toLowerCase() == promptHq.toLowerCase());
+    if (foundHq !== undefined) {
+      hq = foundHq;
+      run = false;
+    }
+    else if (promptHq.toLowerCase() == "none") {
+      run = false;
+    }
+  }
+}
 
 $("#importUpgradesButton").on("click", function () {
   $("#importUpgrades").click();
@@ -601,20 +681,27 @@ $("#importUpgrades").on("change", function () {
   const reader = new FileReader();
   reader.onload = function (file) {
     const importedData = JSON.parse(file.target.result);
-    Object.entries(importedData).forEach(([terrName, terrData]) => {
-      if (currentTerrs[terrName] != undefined) {
-        terrData.popup = currentTerrs[terrName].popup;
-      }
+
+    if ("currentTerrs" in importedData) {
+      currentTerrs = importedData.currentTerrs;
+      hq = importedData.hq;
+    } else {
+      currentTerrs = importedData;
+      setHq();
+    }
+
+    Object.values(currentTerrs).forEach(terrData => {
       terrData.selected = "unselected";
     });
-    currentTerrs = Object.assign({}, importedData);
     currentTerrNames = Object.keys(currentTerrs);
 
     Object.values(upgradesJSON).forEach(upgradeData => {
       upgradeData.current = 0;
     });
 
-    updateCards();
+    updateGlobalTreasury(currentTerrs[hq].treasuryValue);
+
+    updateTotalOutput();
   }
   reader.readAsText(file);
 
@@ -624,12 +711,7 @@ $("#importUpgrades").on("change", function () {
 });
 
 $("#exportUpgradesButton").on("click", function () {
-  const dataToExport = {};
-  Object.assign(dataToExport, currentTerrs);
-
-  Object.values(dataToExport).forEach(terrData => {
-    delete terrData.popup;
-  });
+  const dataToExport = { currentTerrs, hq };
 
   const aElement = document.createElement("a");
   const fileToDownload = new Blob([JSON.stringify(dataToExport)], { type: 'application/json' });
@@ -641,6 +723,42 @@ $("#exportUpgradesButton").on("click", function () {
 $("#deselectAll").on("click", function () {
   selections.forEach(territory => rectangles[territory].setStyle({ dashArray: [0] }));
   selections = [];
+
+  updateUpgradesMenu();
+});
+
+$("#resetUpgrades").on("click", function () {
+  const confirmation = prompt("This will clear all your work, and you won't be able to access it again unless you exported it. Are you sure you want to do this? Type y or yes for yes.");
+
+  if (confirmation?.toLowerCase() === "y" || confirmation?.toLowerCase() === "yes") {
+    currentTerrs = {};
+    globalTreasury = "Very Low";
+    selections = [];
+
+    updateLocalStorage();
+    setup();
+  } else {
+    alert("Reset upgrades aborted since you didn't say y or yes.");
+  }
+});
+
+$("#resetMap").on("click", function () {
+  const confirmation = prompt("This will clear all your work, and you won't be able to access it again unless you exported it. Are you sure you want to do this? Type y or yes for yes.");
+
+  if (confirmation?.toLowerCase() === "y" || confirmation?.toLowerCase() === "yes") {
+    currentTerrNames = ["Volcanic Slope", "Eltom", "Lava Lake", "Crater Descent", "Temple Island", "Sky Castle", "Path to Ahmsord Upper", "Old Coal Mine", "Astraulus' Tower", "Ahmsord Outskirts", "Angel Refuge", "Central Islands", "Sky Falls", "Raider's Base Lower", "Jofash Docks", "Kandon Farm", "Molten Heights Portal", "Active Volcano", "Snail Island", "Frozen Fort", "Kandon Ridge", "Molten Reach", "Wybel Island", "Raider's Base Upper", "Entrance to Rodoroc", "Ahmsord", "Dragonling Nests", "Sky Island Ascent", "Lava Lake Bridge", "Path to Ahmsord Lower", "Jofash Tunnel", "Rodoroc", "Swamp Island"];
+    currentTerrs = {};
+    hq = "Central Islands";
+    globalTreasury = "Very Low";
+    selections = [];
+
+    updateGlobalTreasury("Very Low");
+
+    updateLocalStorage();
+    setup();
+  } else {
+    alert("Reset map aborted since you didn't say y or yes.");
+  }
 });
 
 function makeReadableNumber(number) {

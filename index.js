@@ -167,7 +167,7 @@ async function setup() {
 
 async function updateCurrentTerrs() {
   return new Promise((resolve, reject) => {
-    $.get("https://www.avicia.tk/map/terralldata.json", function (terrData) {
+    $.get("https://www.avicia.ml/map/terralldata.json", function (terrData) {
       currentTerrNames.forEach(terr => {
         if (terr in currentTerrs) return;
 
@@ -278,8 +278,8 @@ function updateMap() {
 
   map.doubleClickZoom.disable();
 
-  $.get("https://www.avicia.tk/map/territories.json", function (terrData) {
-    $.get("https://www.avicia.tk/map/terralldata.json", function (resourceData) {
+  $.get("https://www.avicia.ml/map/territories.json", function (terrData) {
+    $.get("https://www.avicia.ml/map/terralldata.json", function (resourceData) {
       let colors = {
         "crops": "#ffe83d",
         "ore": "#ff3333",

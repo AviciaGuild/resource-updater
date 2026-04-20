@@ -21,7 +21,7 @@ const upgradesJSON = {
     "resource": "ore",
     "type": "%",
     "upgrades": [0, 40, 80, 120, 160, 200, 240, 280, 320, 360, 400, 440],
-    "costs": [0, 100, 300, 600, 1200, 2400, 4800, 8400, 12000, 14600, 17200, 19800]
+    "costs": [0, 100, 300, 600, 1200, 2400, 4800, 8400, 12000, 15600, 19200, 22800]
   },
   "towerAttack": {
     "current": 0,
@@ -29,23 +29,23 @@ const upgradesJSON = {
     "resource": "crops",
     "type": "%",
     "upgrades": [0, 50, 100, 150, 220, 300, 400, 500, 620, 660, 740, 840],
-    "costs": [0, 100, 300, 600, 1200, 2400, 4800, 8400, 12000, 14600, 17200, 19800]
+    "costs": [0, 100, 300, 600, 1200, 2400, 4800, 8400, 12000, 15600, 19200, 22800]
   },
   "towerHealth": {
     "current": 0,
     "displayName": "Health",
     "resource": "wood",
     "type": "%",
-    "upgrades": [0, 50, 100, 150, 220, 300, 400, 500, 620, 660, 740, 840],
-    "costs": [0, 100, 300, 600, 1200, 2400, 4800, 8400, 12000, 14600, 17200, 19800]
+    "upgrades": [0, 50, 100, 150, 220, 300, 400, 520, 640, 760, 880, 1000],
+    "costs": [0, 100, 300, 600, 1200, 2400, 4800, 8400, 12000, 15600, 19200, 22800]
   },
   "towerDefense": {
     "current": 0,
     "displayName": "Defense",
     "resource": "fish",
     "type": "%",
-    "upgrades": [0, 300, 450, 525, 580, 620, 645, 665, 680, 695, 710, 720],
-    "costs": [0, 100, 300, 600, 1200, 2400, 4800, 8400, 12000, 14600, 17200, 19800]
+    "upgrades": [0, 300, 450, 525, 600, 650, 690, 720, 740, 760, 780, 800],
+    "costs": [0, 100, 300, 600, 1200, 2400, 4800, 8400, 12000, 15600, 19200, 22800]
   },
   "towerMinions": {
     "current": 0,
@@ -60,8 +60,8 @@ const upgradesJSON = {
     "displayName": "Multi",
     "resource": "fish",
     "type": "",
-    "upgrades": [1, 2, 3],
-    "costs": [0, 4800, 9600]
+    "upgrades": [1, 2],
+    "costs": [0, 4800]
   },
   "towerAura": {
     "current": 0,
@@ -167,7 +167,7 @@ async function setup() {
 
 async function updateCurrentTerrs() {
   return new Promise((resolve, reject) => {
-    $.get("https://old.avicia.cf/map/terralldata.json", function (terrData) {
+    $.get("https://www.avicia.info/map/terralldata.json", function (terrData) {
       currentTerrNames.forEach(terr => {
         if (terr in currentTerrs) return;
 
@@ -278,8 +278,9 @@ function updateMap() {
 
   map.doubleClickZoom.disable();
 
-  $.get("https://old.avicia.cf/map/territories.json", function (terrData) {
-    $.get("https://old.avicia.cf/map/terralldata.json", function (resourceData) {
+  // $.get("https://api.wynncraft.com/v3/guild/list/territory", function (terrData) {
+  $.get("https://corsproxy.io/?url=https://api.wynncraft.com/v3/guild/list/territory", function (terrData) {
+    $.get("https://www.avicia.info/map/terralldata.json", function (resourceData) {
       let colors = {
         "crops": "#ffe83d",
         "ore": "#ff3333",
@@ -288,11 +289,10 @@ function updateMap() {
         "oasis": "#cf1bbd"
       };
 
-      for (let territory in terrData.territories) {
+      for (let [territory, territoryInfo] of Object.entries(terrData)) {
         if (currentTerrNames.includes(territory)) {
-
-          let location = terrData.territories[territory].location
-          let bounds = [[location.startY * -.001, location.startX * .001], [location.endY * -.001, location.endX * .001]]
+          let location = territoryInfo.location;
+          let bounds = [[location.start[1] * -.001, location.start[0] * .001], [location.end[1] * -.001, location.end[0] * .001]]
 
           let productions = Object.keys(resourceData[territory].resources).filter(e => e !== "emeralds" && resourceData[territory].resources[e] !== '0');
           if (productions.length > 1) {
